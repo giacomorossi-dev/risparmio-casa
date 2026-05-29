@@ -13,7 +13,7 @@ type SubAppDef = {
   tier: 'free' | 'premium';
 };
 
-const SUBAPPS: ReadonlyArray<SubAppDef> = [
+const SUBAPPS: readonly SubAppDef[] = [
   { slug: 'quale-conviene', tier: 'free' },
   { slug: 'scorte', tier: 'premium' },
 ];
@@ -24,7 +24,7 @@ function HomePage() {
   return (
     <div className="flex flex-col gap-12">
       <section className="flex flex-col gap-4 py-10">
-        <h1 className="text-4xl font-bold tracking-tight md:text-5xl">{t('home.heroTitle')}</h1>
+        <h1 className="font-bold text-4xl tracking-tight md:text-5xl">{t('home.heroTitle')}</h1>
         <p className="max-w-2xl text-lg text-muted-foreground">{t('home.heroSubtitle')}</p>
         <div className="flex gap-3 pt-2">
           <SignUpButton mode="modal">
@@ -42,7 +42,7 @@ function HomePage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>{t(`subapps.${slug}.title`)}</CardTitle>
-                <span className="text-xs uppercase tracking-wide text-muted-foreground">
+                <span className="text-muted-foreground text-xs uppercase tracking-wide">
                   {tier === 'free' ? t('common.free') : t('common.premium')}
                 </span>
               </div>

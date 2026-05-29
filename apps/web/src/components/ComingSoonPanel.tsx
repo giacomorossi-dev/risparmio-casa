@@ -26,7 +26,7 @@ export const ComingSoonPanel = ({ title, description }: Props) => {
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <p className="text-sm uppercase tracking-wide text-muted-foreground">
+        <p className="text-muted-foreground text-sm uppercase tracking-wide">
           {t('common.comingSoon')}
         </p>
         {submitted ? (

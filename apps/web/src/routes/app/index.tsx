@@ -17,7 +17,7 @@ function AppHome() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-muted-foreground">Le sub-app sono in arrivo. Resta connesso.</p>
+        <p className="text-muted-foreground text-sm">Le sub-app sono in arrivo. Resta connesso.</p>
       </CardContent>
     </Card>
   );

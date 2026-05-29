@@ -17,7 +17,7 @@ function AppLayout() {
 
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="text-2xl font-semibold">{t('nav.dashboard')}</h1>
+      <h1 className="font-semibold text-2xl">{t('nav.dashboard')}</h1>
       <Outlet />
     </div>
   );

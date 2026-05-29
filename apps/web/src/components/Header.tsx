@@ -9,7 +9,7 @@ export const Header = () => {
   return (
     <header className="border-b">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-        <Link to="/" className="text-lg font-semibold">
+        <Link to="/" className="font-semibold text-lg">
           {t('app.name')}
         </Link>
         <nav className="flex items-center gap-3">
@@ -24,7 +24,7 @@ export const Header = () => {
             </SignUpButton>
           </SignedOut>
           <SignedIn>
-            <Link to="/app" className="text-sm font-medium hover:underline">
+            <Link to="/app" className="font-medium text-sm hover:underline">
               {t('nav.dashboard')}
             </Link>
             <UserButton />

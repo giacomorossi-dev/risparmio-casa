@@ -6,7 +6,7 @@ export const Card = ({ className, ...props }: ComponentProps<'div'>) => (
   <div
     data-slot="card"
     className={cn(
-      'flex flex-col gap-6 rounded-xl border bg-card text-card-foreground py-6 shadow-sm',
+      'flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm',
       className,
     )}
     {...props}
@@ -20,7 +20,7 @@ export const CardHeader = ({ className, ...props }: ComponentProps<'div'>) => (
 export const CardTitle = ({ className, ...props }: ComponentProps<'div'>) => (
   <div
     data-slot="card-title"
-    className={cn('text-lg font-semibold leading-none', className)}
+    className={cn('font-semibold text-lg leading-none', className)}
     {...props}
   />
 );
@@ -28,7 +28,7 @@ export const CardTitle = ({ className, ...props }: ComponentProps<'div'>) => (
 export const CardDescription = ({ className, ...props }: ComponentProps<'div'>) => (
   <div
     data-slot="card-description"
-    className={cn('text-sm text-muted-foreground', className)}
+    className={cn('text-muted-foreground text-sm', className)}
     {...props}
   />
 );

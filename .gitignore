@@ -29,3 +29,4 @@ test-results/
 # Bun
 bun.lockb
 .bun-cache/
+.playwright-mcp/
