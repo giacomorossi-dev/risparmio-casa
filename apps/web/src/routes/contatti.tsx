@@ -1,0 +1,20 @@
+import { createFileRoute } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
+
+import { StaticPage } from '../components/StaticPage.tsx';
+
+export const Route = createFileRoute('/contatti')({
+  component: ContattiPage,
+});
+
+function ContattiPage() {
+  const { t } = useTranslation();
+  const email = t('pages.contact.email');
+  return (
+    <StaticPage title={t('pages.contact.title')} description={t('pages.contact.body')}>
+      <a href={`mailto:${email}`} className="font-medium text-primary text-sm hover:underline">
+        {email}
+      </a>
+    </StaticPage>
+  );
+}

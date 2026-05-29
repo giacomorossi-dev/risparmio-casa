@@ -9,12 +9,21 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TerminiRouteImport } from './routes/termini'
 import { Route as ScorteRouteImport } from './routes/scorte'
 import { Route as QualeConvieneRouteImport } from './routes/quale-conviene'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as CookieRouteImport } from './routes/cookie'
+import { Route as ContattiRouteImport } from './routes/contatti'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app/index'
 
+const TerminiRoute = TerminiRouteImport.update({
+  id: '/termini',
+  path: '/termini',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ScorteRoute = ScorteRouteImport.update({
   id: '/scorte',
   path: '/scorte',
@@ -23,6 +32,21 @@ const ScorteRoute = ScorteRouteImport.update({
 const QualeConvieneRoute = QualeConvieneRouteImport.update({
   id: '/quale-conviene',
   path: '/quale-conviene',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookieRoute = CookieRouteImport.update({
+  id: '/cookie',
+  path: '/cookie',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContattiRoute = ContattiRouteImport.update({
+  id: '/contatti',
+  path: '/contatti',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppRouteRoute = AppRouteRouteImport.update({
@@ -44,41 +68,91 @@ const AppIndexRoute = AppIndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
+  '/contatti': typeof ContattiRoute
+  '/cookie': typeof CookieRoute
+  '/privacy': typeof PrivacyRoute
   '/quale-conviene': typeof QualeConvieneRoute
   '/scorte': typeof ScorteRoute
+  '/termini': typeof TerminiRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/contatti': typeof ContattiRoute
+  '/cookie': typeof CookieRoute
+  '/privacy': typeof PrivacyRoute
   '/quale-conviene': typeof QualeConvieneRoute
   '/scorte': typeof ScorteRoute
+  '/termini': typeof TerminiRoute
   '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
+  '/contatti': typeof ContattiRoute
+  '/cookie': typeof CookieRoute
+  '/privacy': typeof PrivacyRoute
   '/quale-conviene': typeof QualeConvieneRoute
   '/scorte': typeof ScorteRoute
+  '/termini': typeof TerminiRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app' | '/quale-conviene' | '/scorte' | '/app/'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/contatti'
+    | '/cookie'
+    | '/privacy'
+    | '/quale-conviene'
+    | '/scorte'
+    | '/termini'
+    | '/app/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/quale-conviene' | '/scorte' | '/app'
-  id: '__root__' | '/' | '/app' | '/quale-conviene' | '/scorte' | '/app/'
+  to:
+    | '/'
+    | '/contatti'
+    | '/cookie'
+    | '/privacy'
+    | '/quale-conviene'
+    | '/scorte'
+    | '/termini'
+    | '/app'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/contatti'
+    | '/cookie'
+    | '/privacy'
+    | '/quale-conviene'
+    | '/scorte'
+    | '/termini'
+    | '/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRouteRoute: typeof AppRouteRouteWithChildren
+  ContattiRoute: typeof ContattiRoute
+  CookieRoute: typeof CookieRoute
+  PrivacyRoute: typeof PrivacyRoute
   QualeConvieneRoute: typeof QualeConvieneRoute
   ScorteRoute: typeof ScorteRoute
+  TerminiRoute: typeof TerminiRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/termini': {
+      id: '/termini'
+      path: '/termini'
+      fullPath: '/termini'
+      preLoaderRoute: typeof TerminiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/scorte': {
       id: '/scorte'
       path: '/scorte'
@@ -91,6 +165,27 @@ declare module '@tanstack/react-router' {
       path: '/quale-conviene'
       fullPath: '/quale-conviene'
       preLoaderRoute: typeof QualeConvieneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookie': {
+      id: '/cookie'
+      path: '/cookie'
+      fullPath: '/cookie'
+      preLoaderRoute: typeof CookieRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contatti': {
+      id: '/contatti'
+      path: '/contatti'
+      fullPath: '/contatti'
+      preLoaderRoute: typeof ContattiRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app': {
@@ -132,8 +227,12 @@ const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRouteRoute: AppRouteRouteWithChildren,
+  ContattiRoute: ContattiRoute,
+  CookieRoute: CookieRoute,
+  PrivacyRoute: PrivacyRoute,
   QualeConvieneRoute: QualeConvieneRoute,
   ScorteRoute: ScorteRoute,
+  TerminiRoute: TerminiRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

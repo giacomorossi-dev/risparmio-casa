@@ -3,6 +3,7 @@ import { createI18n, I18nextProvider } from '@rc/i18n';
 import { createRootRoute, HeadContent, Outlet, Scripts } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
 
+import { Footer } from '../components/Footer.tsx';
 import { Header } from '../components/Header.tsx';
 import appCss from '../styles.css?url';
 
@@ -30,10 +31,13 @@ function RootComponent() {
     <ClerkProvider>
       <I18nextProvider i18n={i18n}>
         <RootDocument>
-          <Header />
-          <main className="mx-auto max-w-5xl px-6 py-10">
-            <Outlet />
-          </main>
+          <div className="flex min-h-screen flex-col">
+            <Header />
+            <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-10">
+              <Outlet />
+            </main>
+            <Footer />
+          </div>
         </RootDocument>
       </I18nextProvider>
     </ClerkProvider>
@@ -46,7 +50,7 @@ function RootDocument({ children }: { children: ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body className="bg-background text-foreground min-h-screen">
+      <body className="min-h-screen bg-background text-foreground">
         {children}
         <Scripts />
       </body>

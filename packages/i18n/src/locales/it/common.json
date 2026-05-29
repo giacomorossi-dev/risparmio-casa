@@ -38,5 +38,39 @@
     "generic": "Qualcosa è andato storto. Riprova tra poco.",
     "unauthorized": "Devi accedere per continuare.",
     "notFound": "Pagina non trovata."
+  },
+  "footer": {
+    "sections": {
+      "apps": "Le app",
+      "company": "Risorse",
+      "legal": "Legale"
+    },
+    "links": {
+      "home": "Home",
+      "contact": "Contatti",
+      "privacy": "Privacy",
+      "terms": "Termini di servizio",
+      "cookie": "Cookie policy"
+    },
+    "rights": "Tutti i diritti riservati."
+  },
+  "pages": {
+    "contact": {
+      "title": "Contatti",
+      "body": "Per domande, segnalazioni o richieste scrivici: ti rispondiamo il prima possibile.",
+      "email": "info@risparmiocasa.app"
+    },
+    "privacy": {
+      "title": "Privacy policy",
+      "body": "Informativa sul trattamento dei dati personali. Contenuto in fase di redazione."
+    },
+    "terms": {
+      "title": "Termini di servizio",
+      "body": "Condizioni d'uso del servizio. Contenuto in fase di redazione."
+    },
+    "cookie": {
+      "title": "Cookie policy",
+      "body": "Informativa sull'uso dei cookie. Contenuto in fase di redazione."
+    }
   }
 }
