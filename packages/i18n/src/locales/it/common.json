@@ -1,0 +1,42 @@
+{
+  "app": {
+    "name": "Risparmio Casa",
+    "tagline": "Strumenti pratici per risparmiare in casa"
+  },
+  "nav": {
+    "home": "Home",
+    "signIn": "Accedi",
+    "signUp": "Registrati",
+    "signOut": "Esci",
+    "dashboard": "Area personale"
+  },
+  "home": {
+    "heroTitle": "Risparmia ogni giorno, senza fatica",
+    "heroSubtitle": "Una raccolta di piccole app pensate per la spesa, le scorte di casa e le bollette.",
+    "ctaPrimary": "Inizia gratis",
+    "ctaSecondary": "Scopri le app"
+  },
+  "subapps": {
+    "quale-conviene": {
+      "title": "Quale conviene",
+      "description": "Confronta i prezzi al chilo o al litro tra prodotti diversi."
+    },
+    "scorte": {
+      "title": "Scorte di casa",
+      "description": "Tieni traccia di ciò che hai in dispensa e ricevi promemoria per le scadenze."
+    }
+  },
+  "common": {
+    "comingSoon": "In arrivo",
+    "free": "Gratis",
+    "premium": "Premium",
+    "notifyMe": "Avvisami quando esce",
+    "emailPlaceholder": "tua@email.it",
+    "back": "Indietro"
+  },
+  "errors": {
+    "generic": "Qualcosa è andato storto. Riprova tra poco.",
+    "unauthorized": "Devi accedere per continuare.",
+    "notFound": "Pagina non trovata."
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "@rc/webhook-clerk",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@rc/config": "workspace:*",
+    "@rc/db": "workspace:*",
+    "drizzle-orm": "^0.45.2",
+    "svix": "^1.94.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.0",
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0",
+    "vitest": "^4.1.0"
+  }
+}

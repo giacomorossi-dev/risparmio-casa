@@ -1,0 +1,22 @@
+{
+  "name": "@rc/config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./tsconfig.lib.json": "./tsconfig.lib.json",
+    "./tsconfig.node.json": "./tsconfig.node.json",
+    "./tsconfig.react.json": "./tsconfig.react.json",
+    "./pino": "./src/pino.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.lib.json"
+  },
+  "dependencies": {
+    "pino": "^10.3.0",
+    "pino-pretty": "^13.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}

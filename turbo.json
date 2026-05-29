@@ -1,0 +1,44 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "stream",
+  "globalDependencies": ["tsconfig.base.json", "biome.json", "bun.lockb", ".env"],
+  "globalEnv": ["NODE_ENV", "SST_STAGE"],
+  "globalPassThroughEnv": [
+    "DATABASE_URL",
+    "DATABASE_DRIVER",
+    "OFFLINE_AUTH",
+    "CLERK_SECRET_KEY",
+    "CLERK_WEBHOOK_SECRET",
+    "VITE_CLERK_PUBLISHABLE_KEY",
+    "SMTP_HOST",
+    "SMTP_PORT",
+    "SENTRY_DSN",
+    "AWS_REGION",
+    "PORT"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".output/**", "dist/**", "build/**", ".vinxi/**", "openapi.json"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {
+      "dependsOn": ["^build"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
+    },
+    "test:e2e": {
+      "dependsOn": ["build"],
+      "outputs": ["playwright-report/**", "test-results/**"]
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "risparmiocasa",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "bun@1.3.12",
+  "workspaces": [
+    "apps/*",
+    "services/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "bun --env-file=.env run dev:turbo",
+    "dev:turbo": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "typecheck": "turbo run typecheck && tsc --noEmit -p tsconfig.infra.json",
+    "test": "turbo run test",
+    "sst:dev": "sst dev",
+    "sst:deploy": "sst deploy",
+    "sst:remove": "sst remove",
+    "dev:bootstrap": "bun run scripts/dev-bootstrap.ts"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.16",
+    "@rc/db": "workspace:*",
+    "@types/bun": "^1.3.0",
+    "@types/node": "^22.10.0",
+    "sst": "^4.14.3",
+    "turbo": "^2.9.15",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

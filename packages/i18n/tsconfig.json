@@ -1,0 +1,7 @@
+{
+  "extends": "../config/tsconfig.react.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.json"]
+}

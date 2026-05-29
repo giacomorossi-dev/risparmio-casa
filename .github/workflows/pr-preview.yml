@@ -1,0 +1,73 @@
+name: PR preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    environment:
+      name: pr-${{ github.event.pull_request.number }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.11
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: eu-south-1
+
+      - name: Install
+        run: bun install --frozen-lockfile
+
+      - name: Create Neon branch
+        id: neon-branch
+        run: |
+          bun run scripts/neon-branch.ts create pr-${{ github.event.pull_request.number }}
+
+      - name: Deploy preview
+        run: bun sst deploy --stage pr-${{ github.event.pull_request.number }}
+
+      - name: Comment PR with URL
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `Preview live: https://pr-${context.issue.number}.staging.risparmiocasa.app`
+            })
+
+  teardown:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.11
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: eu-south-1
+
+      - run: bun install --frozen-lockfile
+      - run: bun sst remove --stage pr-${{ github.event.pull_request.number }}
+      - run: bun run scripts/neon-branch.ts delete pr-${{ github.event.pull_request.number }}

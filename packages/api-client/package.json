@@ -1,0 +1,21 @@
+{
+  "name": "@rc/api-client",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "generate": "openapi-typescript ../../services/api/openapi.json -o ./src/schema.gen.ts"
+  },
+  "dependencies": {
+    "openapi-fetch": "^0.17.0"
+  },
+  "devDependencies": {
+    "@rc/config": "workspace:*",
+    "openapi-typescript": "^7.13.0",
+    "typescript": "^5.7.0"
+  }
+}

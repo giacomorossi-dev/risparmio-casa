@@ -1,0 +1,31 @@
+node_modules/
+.turbo/
+dist/
+build/
+.output/
+.vinxi/
+.sst/
+.docker/
+*.log
+.DS_Store
+
+# env
+.env
+compose.override.yml
+.env.local
+.env.*.local
+
+# IDE
+.vscode/*
+!.vscode/launch.json
+!.vscode/settings.json
+.idea/
+
+# Coverage / test
+coverage/
+playwright-report/
+test-results/
+
+# Bun
+bun.lockb
+.bun-cache/

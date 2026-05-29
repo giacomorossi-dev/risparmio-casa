@@ -1,0 +1,26 @@
+{
+  "name": "@rc/i18n",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./locales/*": "./src/locales/*"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "i18next": "^26.0.0",
+    "react-i18next": "^17.0.0"
+  },
+  "devDependencies": {
+    "@rc/config": "workspace:*",
+    "@types/react": "^19.0.0",
+    "react": "^19.2.0",
+    "typescript": "^5.7.0"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
+  }
+}

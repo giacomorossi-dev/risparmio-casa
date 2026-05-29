@@ -1,0 +1,61 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "risparmiocasa API",
+    "version": "0.0.0"
+  },
+  "components": {
+    "schemas": {
+      "Me": {
+        "type": "object",
+        "properties": {
+          "clerkId": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "plan": {
+            "type": "string",
+            "enum": [
+              "free",
+              "pro"
+            ]
+          }
+        },
+        "required": [
+          "clerkId",
+          "email",
+          "plan"
+        ]
+      }
+    },
+    "parameters": {}
+  },
+  "paths": {
+    "/api/me": {
+      "get": {
+        "summary": "Profilo utente corrente",
+        "responses": {
+          "200": {
+            "description": "Profilo utente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Me"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Non autenticato"
+          },
+          "404": {
+            "description": "Utente non trovato"
+          }
+        }
+      }
+    }
+  }
+}
