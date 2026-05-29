@@ -13,7 +13,7 @@
   "aliases": {
     "components": "@rc/ui/components",
     "utils": "@rc/ui/lib/utils",
-    "ui": "@rc/ui/components",
+    "ui": "@rc/ui/components/ui",
     "lib": "@rc/ui/lib",
     "hooks": "@rc/ui/hooks"
   },
