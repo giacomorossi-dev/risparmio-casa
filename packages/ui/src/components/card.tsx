@@ -2,6 +2,7 @@
 // Importa sempre da @rc/ui/components/card, mai da @rc/ui/components/ui/card.
 export {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
