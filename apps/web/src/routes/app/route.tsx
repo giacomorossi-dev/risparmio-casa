@@ -1,4 +1,4 @@
-import { useAuth } from '@clerk/tanstack-start';
+import { useAuth } from '@clerk/tanstack-react-start';
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 

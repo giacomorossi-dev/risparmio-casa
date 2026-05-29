@@ -8,12 +8,12 @@ export default defineConfig({
   server: { port: 3000 },
   resolve: { tsconfigPaths: true },
   // I pacchetti Clerk importano il modulo CJS use-sync-external-store/shim
-  // (tramite @clerk/shared). Forzando il pre-bundling di @clerk/tanstack-start,
+  // (tramite @clerk/shared). Forzando il pre-bundling di @clerk/tanstack-react-start,
   // esbuild inlina il CJS con l'interop corretto; senza, Vite serve lo shim raw
   // e il client si rompe con "does not provide an export named useSyncExternalStore".
   optimizeDeps: {
     include: [
-      '@clerk/tanstack-start',
+      '@clerk/tanstack-react-start',
       'use-sync-external-store/shim',
       'use-sync-external-store/shim/with-selector',
     ],
