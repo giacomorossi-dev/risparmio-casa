@@ -12,14 +12,16 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as UtilitaRouteImport } from './routes/utilita'
 import { Route as TerminiRouteImport } from './routes/termini'
 import { Route as ScorteRouteImport } from './routes/scorte'
-import { Route as QualeConvieneRouteImport } from './routes/quale-conviene'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as DesignRouteImport } from './routes/design'
 import { Route as CookieRouteImport } from './routes/cookie'
 import { Route as ContattiRouteImport } from './routes/contatti'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as QualeConvieneIndexRouteImport } from './routes/quale-conviene/index'
 import { Route as AppIndexRouteImport } from './routes/app/index'
+import { Route as QualeConvieneConfrontaRouteImport } from './routes/quale-conviene/confronta'
+import { Route as QualeConvieneCategoryRouteImport } from './routes/quale-conviene/$category'
 
 const UtilitaRoute = UtilitaRouteImport.update({
   id: '/utilita',
@@ -34,11 +36,6 @@ const TerminiRoute = TerminiRouteImport.update({
 const ScorteRoute = ScorteRouteImport.update({
   id: '/scorte',
   path: '/scorte',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const QualeConvieneRoute = QualeConvieneRouteImport.update({
-  id: '/quale-conviene',
-  path: '/quale-conviene',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -71,10 +68,25 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QualeConvieneIndexRoute = QualeConvieneIndexRouteImport.update({
+  id: '/quale-conviene/',
+  path: '/quale-conviene/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRouteRoute,
+} as any)
+const QualeConvieneConfrontaRoute = QualeConvieneConfrontaRouteImport.update({
+  id: '/quale-conviene/confronta',
+  path: '/quale-conviene/confronta',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QualeConvieneCategoryRoute = QualeConvieneCategoryRouteImport.update({
+  id: '/quale-conviene/$category',
+  path: '/quale-conviene/$category',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -84,11 +96,13 @@ export interface FileRoutesByFullPath {
   '/cookie': typeof CookieRoute
   '/design': typeof DesignRoute
   '/privacy': typeof PrivacyRoute
-  '/quale-conviene': typeof QualeConvieneRoute
   '/scorte': typeof ScorteRoute
   '/termini': typeof TerminiRoute
   '/utilita': typeof UtilitaRoute
+  '/quale-conviene/$category': typeof QualeConvieneCategoryRoute
+  '/quale-conviene/confronta': typeof QualeConvieneConfrontaRoute
   '/app/': typeof AppIndexRoute
+  '/quale-conviene/': typeof QualeConvieneIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -96,11 +110,13 @@ export interface FileRoutesByTo {
   '/cookie': typeof CookieRoute
   '/design': typeof DesignRoute
   '/privacy': typeof PrivacyRoute
-  '/quale-conviene': typeof QualeConvieneRoute
   '/scorte': typeof ScorteRoute
   '/termini': typeof TerminiRoute
   '/utilita': typeof UtilitaRoute
+  '/quale-conviene/$category': typeof QualeConvieneCategoryRoute
+  '/quale-conviene/confronta': typeof QualeConvieneConfrontaRoute
   '/app': typeof AppIndexRoute
+  '/quale-conviene': typeof QualeConvieneIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -110,11 +126,13 @@ export interface FileRoutesById {
   '/cookie': typeof CookieRoute
   '/design': typeof DesignRoute
   '/privacy': typeof PrivacyRoute
-  '/quale-conviene': typeof QualeConvieneRoute
   '/scorte': typeof ScorteRoute
   '/termini': typeof TerminiRoute
   '/utilita': typeof UtilitaRoute
+  '/quale-conviene/$category': typeof QualeConvieneCategoryRoute
+  '/quale-conviene/confronta': typeof QualeConvieneConfrontaRoute
   '/app/': typeof AppIndexRoute
+  '/quale-conviene/': typeof QualeConvieneIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -125,11 +143,13 @@ export interface FileRouteTypes {
     | '/cookie'
     | '/design'
     | '/privacy'
-    | '/quale-conviene'
     | '/scorte'
     | '/termini'
     | '/utilita'
+    | '/quale-conviene/$category'
+    | '/quale-conviene/confronta'
     | '/app/'
+    | '/quale-conviene/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -137,11 +157,13 @@ export interface FileRouteTypes {
     | '/cookie'
     | '/design'
     | '/privacy'
-    | '/quale-conviene'
     | '/scorte'
     | '/termini'
     | '/utilita'
+    | '/quale-conviene/$category'
+    | '/quale-conviene/confronta'
     | '/app'
+    | '/quale-conviene'
   id:
     | '__root__'
     | '/'
@@ -150,11 +172,13 @@ export interface FileRouteTypes {
     | '/cookie'
     | '/design'
     | '/privacy'
-    | '/quale-conviene'
     | '/scorte'
     | '/termini'
     | '/utilita'
+    | '/quale-conviene/$category'
+    | '/quale-conviene/confronta'
     | '/app/'
+    | '/quale-conviene/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -164,10 +188,12 @@ export interface RootRouteChildren {
   CookieRoute: typeof CookieRoute
   DesignRoute: typeof DesignRoute
   PrivacyRoute: typeof PrivacyRoute
-  QualeConvieneRoute: typeof QualeConvieneRoute
   ScorteRoute: typeof ScorteRoute
   TerminiRoute: typeof TerminiRoute
   UtilitaRoute: typeof UtilitaRoute
+  QualeConvieneCategoryRoute: typeof QualeConvieneCategoryRoute
+  QualeConvieneConfrontaRoute: typeof QualeConvieneConfrontaRoute
+  QualeConvieneIndexRoute: typeof QualeConvieneIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -191,13 +217,6 @@ declare module '@tanstack/react-router' {
       path: '/scorte'
       fullPath: '/scorte'
       preLoaderRoute: typeof ScorteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/quale-conviene': {
-      id: '/quale-conviene'
-      path: '/quale-conviene'
-      fullPath: '/quale-conviene'
-      preLoaderRoute: typeof QualeConvieneRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -242,12 +261,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/quale-conviene/': {
+      id: '/quale-conviene/'
+      path: '/quale-conviene'
+      fullPath: '/quale-conviene/'
+      preLoaderRoute: typeof QualeConvieneIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app/': {
       id: '/app/'
       path: '/'
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRouteRoute
+    }
+    '/quale-conviene/confronta': {
+      id: '/quale-conviene/confronta'
+      path: '/quale-conviene/confronta'
+      fullPath: '/quale-conviene/confronta'
+      preLoaderRoute: typeof QualeConvieneConfrontaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quale-conviene/$category': {
+      id: '/quale-conviene/$category'
+      path: '/quale-conviene/$category'
+      fullPath: '/quale-conviene/$category'
+      preLoaderRoute: typeof QualeConvieneCategoryRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -271,10 +311,12 @@ const rootRouteChildren: RootRouteChildren = {
   CookieRoute: CookieRoute,
   DesignRoute: DesignRoute,
   PrivacyRoute: PrivacyRoute,
-  QualeConvieneRoute: QualeConvieneRoute,
   ScorteRoute: ScorteRoute,
   TerminiRoute: TerminiRoute,
   UtilitaRoute: UtilitaRoute,
+  QualeConvieneCategoryRoute: QualeConvieneCategoryRoute,
+  QualeConvieneConfrontaRoute: QualeConvieneConfrontaRoute,
+  QualeConvieneIndexRoute: QualeConvieneIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

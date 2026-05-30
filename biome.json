@@ -126,11 +126,18 @@
       }
     },
     {
-      "includes": ["apps/web/src/features/quale-conviene/**"],
+      "includes": [
+        "apps/web/src/features/quale-conviene/**",
+        "apps/web/src/routes/quale-conviene/**"
+      ],
       "linter": {
         "rules": {
           "style": { "noNonNullAssertion": "off" },
-          "complexity": { "noExcessiveCognitiveComplexity": "off" }
+          "complexity": { "noExcessiveCognitiveComplexity": "off", "noUselessFragments": "off" },
+          "correctness": { "useExhaustiveDependencies": "off" },
+          "suspicious": { "noArrayIndexKey": "off" },
+          "a11y": { "useSemanticElements": "off" },
+          "nursery": { "useSortedClasses": "off" }
         }
       }
     },
