@@ -16,6 +16,7 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as DesignRouteImport } from './routes/design'
 import { Route as CookieRouteImport } from './routes/cookie'
 import { Route as ContattiRouteImport } from './routes/contatti'
+import { Route as QualeConvieneRouteRouteImport } from './routes/quale-conviene/route'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as QualeConvieneIndexRouteImport } from './routes/quale-conviene/index'
@@ -58,6 +59,11 @@ const ContattiRoute = ContattiRouteImport.update({
   path: '/contatti',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QualeConvieneRouteRoute = QualeConvieneRouteRouteImport.update({
+  id: '/quale-conviene',
+  path: '/quale-conviene',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppRouteRoute = AppRouteRouteImport.update({
   id: '/app',
   path: '/app',
@@ -69,9 +75,9 @@ const IndexRoute = IndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const QualeConvieneIndexRoute = QualeConvieneIndexRouteImport.update({
-  id: '/quale-conviene/',
-  path: '/quale-conviene/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => QualeConvieneRouteRoute,
 } as any)
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
@@ -79,19 +85,20 @@ const AppIndexRoute = AppIndexRouteImport.update({
   getParentRoute: () => AppRouteRoute,
 } as any)
 const QualeConvieneConfrontaRoute = QualeConvieneConfrontaRouteImport.update({
-  id: '/quale-conviene/confronta',
-  path: '/quale-conviene/confronta',
-  getParentRoute: () => rootRouteImport,
+  id: '/confronta',
+  path: '/confronta',
+  getParentRoute: () => QualeConvieneRouteRoute,
 } as any)
 const QualeConvieneCategoryRoute = QualeConvieneCategoryRouteImport.update({
-  id: '/quale-conviene/$category',
-  path: '/quale-conviene/$category',
-  getParentRoute: () => rootRouteImport,
+  id: '/$category',
+  path: '/$category',
+  getParentRoute: () => QualeConvieneRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
+  '/quale-conviene': typeof QualeConvieneRouteRouteWithChildren
   '/contatti': typeof ContattiRoute
   '/cookie': typeof CookieRoute
   '/design': typeof DesignRoute
@@ -122,6 +129,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
+  '/quale-conviene': typeof QualeConvieneRouteRouteWithChildren
   '/contatti': typeof ContattiRoute
   '/cookie': typeof CookieRoute
   '/design': typeof DesignRoute
@@ -139,6 +147,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/app'
+    | '/quale-conviene'
     | '/contatti'
     | '/cookie'
     | '/design'
@@ -168,6 +177,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/app'
+    | '/quale-conviene'
     | '/contatti'
     | '/cookie'
     | '/design'
@@ -184,6 +194,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRouteRoute: typeof AppRouteRouteWithChildren
+  QualeConvieneRouteRoute: typeof QualeConvieneRouteRouteWithChildren
   ContattiRoute: typeof ContattiRoute
   CookieRoute: typeof CookieRoute
   DesignRoute: typeof DesignRoute
@@ -191,9 +202,6 @@ export interface RootRouteChildren {
   ScorteRoute: typeof ScorteRoute
   TerminiRoute: typeof TerminiRoute
   UtilitaRoute: typeof UtilitaRoute
-  QualeConvieneCategoryRoute: typeof QualeConvieneCategoryRoute
-  QualeConvieneConfrontaRoute: typeof QualeConvieneConfrontaRoute
-  QualeConvieneIndexRoute: typeof QualeConvieneIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -247,6 +255,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContattiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/quale-conviene': {
+      id: '/quale-conviene'
+      path: '/quale-conviene'
+      fullPath: '/quale-conviene'
+      preLoaderRoute: typeof QualeConvieneRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app': {
       id: '/app'
       path: '/app'
@@ -263,10 +278,10 @@ declare module '@tanstack/react-router' {
     }
     '/quale-conviene/': {
       id: '/quale-conviene/'
-      path: '/quale-conviene'
+      path: '/'
       fullPath: '/quale-conviene/'
       preLoaderRoute: typeof QualeConvieneIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof QualeConvieneRouteRoute
     }
     '/app/': {
       id: '/app/'
@@ -277,17 +292,17 @@ declare module '@tanstack/react-router' {
     }
     '/quale-conviene/confronta': {
       id: '/quale-conviene/confronta'
-      path: '/quale-conviene/confronta'
+      path: '/confronta'
       fullPath: '/quale-conviene/confronta'
       preLoaderRoute: typeof QualeConvieneConfrontaRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof QualeConvieneRouteRoute
     }
     '/quale-conviene/$category': {
       id: '/quale-conviene/$category'
-      path: '/quale-conviene/$category'
+      path: '/$category'
       fullPath: '/quale-conviene/$category'
       preLoaderRoute: typeof QualeConvieneCategoryRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof QualeConvieneRouteRoute
     }
   }
 }
@@ -304,9 +319,25 @@ const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
   AppRouteRouteChildren,
 )
 
+interface QualeConvieneRouteRouteChildren {
+  QualeConvieneCategoryRoute: typeof QualeConvieneCategoryRoute
+  QualeConvieneConfrontaRoute: typeof QualeConvieneConfrontaRoute
+  QualeConvieneIndexRoute: typeof QualeConvieneIndexRoute
+}
+
+const QualeConvieneRouteRouteChildren: QualeConvieneRouteRouteChildren = {
+  QualeConvieneCategoryRoute: QualeConvieneCategoryRoute,
+  QualeConvieneConfrontaRoute: QualeConvieneConfrontaRoute,
+  QualeConvieneIndexRoute: QualeConvieneIndexRoute,
+}
+
+const QualeConvieneRouteRouteWithChildren =
+  QualeConvieneRouteRoute._addFileChildren(QualeConvieneRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRouteRoute: AppRouteRouteWithChildren,
+  QualeConvieneRouteRoute: QualeConvieneRouteRouteWithChildren,
   ContattiRoute: ContattiRoute,
   CookieRoute: CookieRoute,
   DesignRoute: DesignRoute,
@@ -314,9 +345,6 @@ const rootRouteChildren: RootRouteChildren = {
   ScorteRoute: ScorteRoute,
   TerminiRoute: TerminiRoute,
   UtilitaRoute: UtilitaRoute,
-  QualeConvieneCategoryRoute: QualeConvieneCategoryRoute,
-  QualeConvieneConfrontaRoute: QualeConvieneConfrontaRoute,
-  QualeConvieneIndexRoute: QualeConvieneIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -68,15 +68,15 @@ export default function HeroBanner() {
 			    but ~30% cheaper for the compositor on low-end mobile GPUs. */}
       <div
         aria-hidden="true"
-        className="animate-drift-slow absolute -left-20 -top-24 h-80 w-80 rounded-full bg-cyan-300/55 blur-2xl dark:bg-cyan-400/60"
+        className="absolute -left-20 -top-24 h-80 w-80 rounded-full bg-cyan-300/45 blur-2xl dark:bg-cyan-400/45"
       />
       <div
         aria-hidden="true"
-        className="animate-drift-medium absolute -bottom-28 -right-12 h-96 w-96 rounded-full bg-pink-400/55 blur-2xl dark:bg-pink-500/60"
+        className="absolute -bottom-28 -right-12 h-96 w-96 rounded-full bg-teal-400/45 blur-2xl dark:bg-teal-500/50"
       />
       <div
         aria-hidden="true"
-        className="animate-drift-fast absolute right-1/3 top-1/4 h-56 w-56 rounded-full bg-indigo-300/45 blur-2xl dark:bg-indigo-400/45"
+        className="absolute right-1/3 top-1/4 h-56 w-56 rounded-full bg-emerald-300/40 blur-2xl dark:bg-emerald-400/40"
       />
 
       {/* Saas grid overlay — masked to centre */}
