@@ -28,3 +28,13 @@ Regole:
 Perché: disaccoppia il codice applicativo da shadcn, così i primitivi si possono rigenerare/aggiornare senza toccare i consumer, e resta un unico punto dove aggiungere eventuali default di progetto.
 
 Quando aggiungi un componente shadcn (finisce in `components/ui/`), crea **subito** anche il wrapper in `components/`. Nessun primitivo senza il suo wrapper.
+
+## Theming per sotto-app
+
+L'app è un contenitore di sotto-app, ognuna con un **tema** (palette) diverso così l'utente capisce dove si trova. I temi sono classi CSS in `packages/ui/src/styles/themes.css` (`.theme-site`, `.theme-quale-conviene`, `.theme-scorte`, `.theme-utilita`) che **sovrascrivono solo i token superficie** (`--background`, `--card`, `--popover`, `--primary(+fg)`, `--accent(+fg)`, `--ring`, `--radius`); foreground/muted/border/ecc. restano da `:root`/`.dark`.
+
+- **Fonte unica**: `apps/web/src/apps.ts` (`APPS` + `themeForPath`). Home, footer e theme-resolver leggono da qui — non duplicare l'elenco delle app altrove.
+- **Applicazione**: `apps/web/src/routes/__root.tsx` legge il pathname (`useRouterState`) e mette `theme-<key>` sul wrapper dello shell. Le custom property si risolvono per **prossimità DOM**, quindi il tema sul `<div>` vince sui token di `:root`; in dark mode valgono le regole `.dark .theme-*`.
+- I temi sono pure classi: qualsiasi sottoalbero può adottarne uno (es. le card della home e la route `/design` mostrano i temi affiancati).
+- Aggiungere una sotto-app = voce in `APPS` + classe `.theme-<slug>` in `themes.css` + route + chiavi i18n `subapps.<slug>.*`.
+- Mascotte: per ora placeholder (icona lucide in `MascotSlot`); illustrazioni vere più avanti.

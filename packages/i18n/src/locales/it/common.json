@@ -24,6 +24,10 @@
     "scorte": {
       "title": "Scorte di casa",
       "description": "Tieni traccia di ciò che hai in dispensa e ricevi promemoria per le scadenze."
+    },
+    "utilita": {
+      "title": "Utilità",
+      "description": "Piccoli strumenti pratici: conversioni, consigli e best practice per la casa."
     }
   },
   "common": {

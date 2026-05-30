@@ -4,14 +4,14 @@ import { appBySlug } from '../apps.ts';
 import { AppHero } from '../components/AppHero.tsx';
 import { ComingSoonPanel } from '../components/ComingSoonPanel.tsx';
 
-export const Route = createFileRoute('/quale-conviene')({
-  component: QualeConvienePage,
+export const Route = createFileRoute('/utilita')({
+  component: UtilitaPage,
 });
 
-function QualeConvienePage() {
+function UtilitaPage() {
   return (
     <>
-      <AppHero app={appBySlug('quale-conviene')} />
+      <AppHero app={appBySlug('utilita')} />
       <ComingSoonPanel />
     </>
   );

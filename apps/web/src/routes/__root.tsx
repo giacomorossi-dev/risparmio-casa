@@ -1,8 +1,15 @@
 import { ClerkProvider } from '@clerk/tanstack-react-start';
 import { createI18n, I18nextProvider } from '@rc/i18n';
-import { createRootRoute, HeadContent, Outlet, Scripts } from '@tanstack/react-router';
+import {
+  createRootRoute,
+  HeadContent,
+  Outlet,
+  Scripts,
+  useRouterState,
+} from '@tanstack/react-router';
 import type { ReactNode } from 'react';
 
+import { themeForPath } from '../apps.ts';
 import { Footer } from '../components/Footer.tsx';
 import { Header } from '../components/Header.tsx';
 import appCss from '../styles.css?url';
@@ -27,11 +34,16 @@ export const Route = createRootRoute({
 const i18n = createI18n('it');
 
 function RootComponent() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const theme = themeForPath(pathname);
+
   return (
     <ClerkProvider>
       <I18nextProvider i18n={i18n}>
         <RootDocument>
-          <div className="flex min-h-screen flex-col">
+          <div
+            className={`theme-${theme} flex min-h-screen flex-col bg-background text-foreground`}
+          >
             <Header />
             <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-10">
               <Outlet />

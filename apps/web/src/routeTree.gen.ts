@@ -9,16 +9,23 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UtilitaRouteImport } from './routes/utilita'
 import { Route as TerminiRouteImport } from './routes/termini'
 import { Route as ScorteRouteImport } from './routes/scorte'
 import { Route as QualeConvieneRouteImport } from './routes/quale-conviene'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as DesignRouteImport } from './routes/design'
 import { Route as CookieRouteImport } from './routes/cookie'
 import { Route as ContattiRouteImport } from './routes/contatti'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app/index'
 
+const UtilitaRoute = UtilitaRouteImport.update({
+  id: '/utilita',
+  path: '/utilita',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TerminiRoute = TerminiRouteImport.update({
   id: '/termini',
   path: '/termini',
@@ -37,6 +44,11 @@ const QualeConvieneRoute = QualeConvieneRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DesignRoute = DesignRouteImport.update({
+  id: '/design',
+  path: '/design',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CookieRoute = CookieRouteImport.update({
@@ -70,20 +82,24 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRouteRouteWithChildren
   '/contatti': typeof ContattiRoute
   '/cookie': typeof CookieRoute
+  '/design': typeof DesignRoute
   '/privacy': typeof PrivacyRoute
   '/quale-conviene': typeof QualeConvieneRoute
   '/scorte': typeof ScorteRoute
   '/termini': typeof TerminiRoute
+  '/utilita': typeof UtilitaRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contatti': typeof ContattiRoute
   '/cookie': typeof CookieRoute
+  '/design': typeof DesignRoute
   '/privacy': typeof PrivacyRoute
   '/quale-conviene': typeof QualeConvieneRoute
   '/scorte': typeof ScorteRoute
   '/termini': typeof TerminiRoute
+  '/utilita': typeof UtilitaRoute
   '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
@@ -92,10 +108,12 @@ export interface FileRoutesById {
   '/app': typeof AppRouteRouteWithChildren
   '/contatti': typeof ContattiRoute
   '/cookie': typeof CookieRoute
+  '/design': typeof DesignRoute
   '/privacy': typeof PrivacyRoute
   '/quale-conviene': typeof QualeConvieneRoute
   '/scorte': typeof ScorteRoute
   '/termini': typeof TerminiRoute
+  '/utilita': typeof UtilitaRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
@@ -105,20 +123,24 @@ export interface FileRouteTypes {
     | '/app'
     | '/contatti'
     | '/cookie'
+    | '/design'
     | '/privacy'
     | '/quale-conviene'
     | '/scorte'
     | '/termini'
+    | '/utilita'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/contatti'
     | '/cookie'
+    | '/design'
     | '/privacy'
     | '/quale-conviene'
     | '/scorte'
     | '/termini'
+    | '/utilita'
     | '/app'
   id:
     | '__root__'
@@ -126,10 +148,12 @@ export interface FileRouteTypes {
     | '/app'
     | '/contatti'
     | '/cookie'
+    | '/design'
     | '/privacy'
     | '/quale-conviene'
     | '/scorte'
     | '/termini'
+    | '/utilita'
     | '/app/'
   fileRoutesById: FileRoutesById
 }
@@ -138,14 +162,23 @@ export interface RootRouteChildren {
   AppRouteRoute: typeof AppRouteRouteWithChildren
   ContattiRoute: typeof ContattiRoute
   CookieRoute: typeof CookieRoute
+  DesignRoute: typeof DesignRoute
   PrivacyRoute: typeof PrivacyRoute
   QualeConvieneRoute: typeof QualeConvieneRoute
   ScorteRoute: typeof ScorteRoute
   TerminiRoute: typeof TerminiRoute
+  UtilitaRoute: typeof UtilitaRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/utilita': {
+      id: '/utilita'
+      path: '/utilita'
+      fullPath: '/utilita'
+      preLoaderRoute: typeof UtilitaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/termini': {
       id: '/termini'
       path: '/termini'
@@ -172,6 +205,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/design': {
+      id: '/design'
+      path: '/design'
+      fullPath: '/design'
+      preLoaderRoute: typeof DesignRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cookie': {
@@ -229,10 +269,12 @@ const rootRouteChildren: RootRouteChildren = {
   AppRouteRoute: AppRouteRouteWithChildren,
   ContattiRoute: ContattiRoute,
   CookieRoute: CookieRoute,
+  DesignRoute: DesignRoute,
   PrivacyRoute: PrivacyRoute,
   QualeConvieneRoute: QualeConvieneRoute,
   ScorteRoute: ScorteRoute,
   TerminiRoute: TerminiRoute,
+  UtilitaRoute: UtilitaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
