@@ -1,0 +1,15 @@
+{
+  "name": "Risparmio Casa",
+  "short_name": "Risparmio Casa",
+  "description": "Strumenti pratici per risparmiare in casa: confronto prezzi, scorte e utilità.",
+  "lang": "it",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#5b9e84",
+  "icons": [
+    { "src": "/icon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "any" },
+    { "src": "/icon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "maskable" }
+  ]
+}

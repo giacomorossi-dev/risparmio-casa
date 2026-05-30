@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Risparmio Casa">
+  <rect width="512" height="512" rx="112" fill="#5b9e84"/>
+  <path d="M256 128 134 232v152a16 16 0 0 0 16 16h84V304h44v96h84a16 16 0 0 0 16-16V232z" fill="#fff"/>
+  <circle cx="256" cy="248" r="34" fill="#5b9e84"/>
+</svg>

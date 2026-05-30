@@ -80,6 +80,13 @@ export const Footer = () => {
             <Link to="/cookie" className="transition-colors hover:text-foreground">
               {t('footer.links.cookie')}
             </Link>
+            <button
+              type="button"
+              data-cc="show-preferencesModal"
+              className="transition-colors hover:text-foreground"
+            >
+              {t('footer.links.cookiePrefs')}
+            </button>
           </nav>
         </div>
       </div>

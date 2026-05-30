@@ -24,7 +24,8 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-i18next": "^17.0.0",
-    "use-sync-external-store": "^1.6.0"
+    "use-sync-external-store": "^1.6.0",
+    "vanilla-cookieconsent": "^3.1.0"
   },
   "devDependencies": {
     "@rc/config": "workspace:*",

@@ -10,8 +10,10 @@ import {
 import type { ReactNode } from 'react';
 
 import { themeForPath } from '../apps.ts';
+import { CookieConsent } from '../components/CookieConsent.tsx';
 import { Footer } from '../components/Footer.tsx';
 import { Header } from '../components/Header.tsx';
+import { ServiceWorkerRegister } from '../components/ServiceWorkerRegister.tsx';
 import appCss from '../styles.css?url';
 
 export const Route = createRootRoute({
@@ -25,8 +27,13 @@ export const Route = createRootRoute({
         content:
           'Una raccolta di piccole app italiane per la spesa, le scorte di casa e le bollette.',
       },
+      { name: 'theme-color', content: '#5b9e84' },
     ],
-    links: [{ rel: 'stylesheet', href: appCss }],
+    links: [
+      { rel: 'stylesheet', href: appCss },
+      { rel: 'manifest', href: '/manifest.json' },
+      { rel: 'icon', type: 'image/svg+xml', href: '/icon.svg' },
+    ],
   }),
   component: RootComponent,
 });
@@ -60,6 +67,11 @@ function RootComponent() {
 // flash bianco per chi ha il tema scuro salvato. Vedi components/ThemeToggle.
 const THEME_BOOTSTRAP = `(function(){try{var t=localStorage.getItem('rc:theme');var d;if(t==='dark'){d=true;}else if(t==='light'){d=false;}else{d=matchMedia('(prefers-color-scheme: dark)').matches;}if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
 
+// Google Consent Mode v2 — tutto "denied" finché l'utente non accetta la
+// categoria analytics; deve girare PRIMA di qualsiasi script GA4. lib/analytics
+// loadGA4() passa a "granted" e inietta gtag.js solo dopo il consenso.
+const CONSENT_BOOTSTRAP = `window.dataLayer=window.dataLayer||[];window.gtag=function(){window.dataLayer.push(arguments);};window.gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});`;
+
 function RootDocument({ children }: { children: ReactNode }) {
   return (
     <html lang="it" suppressHydrationWarning>
@@ -67,9 +79,13 @@ function RootDocument({ children }: { children: ReactNode }) {
         <HeadContent />
         {/* biome-ignore lint/security/noDangerouslySetInnerHtml: theme bootstrap must run before hydration */}
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} />
+        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: gtag consent default must run before any analytics */}
+        <script dangerouslySetInnerHTML={{ __html: CONSENT_BOOTSTRAP }} />
       </head>
       <body className="min-h-screen bg-background text-foreground">
         {children}
+        <CookieConsent />
+        <ServiceWorkerRegister />
         <Scripts />
       </body>
     </html>
