@@ -3,6 +3,8 @@ import { Button } from '@rc/ui/components/button';
 import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 
+import { ThemeToggle } from './ThemeToggle.tsx';
+
 export const Header = () => {
   const { t } = useTranslation();
 
@@ -13,6 +15,7 @@ export const Header = () => {
           {t('app.name')}
         </Link>
         <nav className="flex items-center gap-3">
+          <ThemeToggle />
           <Show when="signed-out">
             <SignInButton mode="modal">
               <Button size="sm">{t('nav.signIn')}</Button>

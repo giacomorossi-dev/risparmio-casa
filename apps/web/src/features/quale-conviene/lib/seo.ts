@@ -8,16 +8,10 @@ const SITE_NAME = 'Quale Conviene';
  * local dev so meta tags are still well-formed.
  */
 const SITE_URL =
-  (import.meta.env.VITE_SITE_URL as string | undefined) ?? 'https://quale-conviene.example';
+  (import.meta.env.VITE_SITE_URL as string | undefined) ?? 'https://risparmiocasa.app';
 
-/**
- * Cloudflare Web Analytics token (privacy-first, no cookie banner).
- * Set `VITE_CLOUDFLARE_ANALYTICS_TOKEN` to enable. Falls back to undefined
- * which makes the analytics tag a no-op.
- */
-const CLOUDFLARE_ANALYTICS_TOKEN = import.meta.env.VITE_CLOUDFLARE_ANALYTICS_TOKEN as
-  | string
-  | undefined;
+// La sotto-app vive sotto /quale-conviene nell'aggregatore.
+const QC_BASE = `${SITE_URL}/quale-conviene`;
 
 const OG_IMAGE_URL = `${SITE_URL}/og-image.png`;
 const OG_IMAGE_META = [
@@ -32,7 +26,7 @@ export function buildCategoryMeta(category: CategoryDefinition) {
   // SEO-tuned title: long-tail + question framing performs better in SERP.
   const title = `${category.name} al miglior prezzo · €/${getCategoryBaseLabel(category)} · ${SITE_NAME}`;
   const description = category.description;
-  const url = `${SITE_URL}/${category.slug}`;
+  const url = `${QC_BASE}/${category.slug}`;
   return [
     { title },
     { name: 'description', content: description },
@@ -65,7 +59,7 @@ export function buildCanonicalLinks(path: string) {
  * route can serialize each as a separate `<script type="application/ld+json">`.
  */
 export function buildCategoryJsonLd(category: CategoryDefinition) {
-  const url = `${SITE_URL}/${category.slug}`;
+  const url = `${QC_BASE}/${category.slug}`;
   const article = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -120,7 +114,7 @@ export function buildHomeMeta() {
     { property: 'og:type', content: 'website' },
     { property: 'og:title', content: title },
     { property: 'og:description', content: description },
-    { property: 'og:url', content: SITE_URL },
+    { property: 'og:url', content: QC_BASE },
     { property: 'og:site_name', content: SITE_NAME },
     { property: 'og:locale', content: 'it_IT' },
     { name: 'twitter:card', content: 'summary_large_image' },
@@ -130,4 +124,4 @@ export function buildHomeMeta() {
   ];
 }
 
-export { CLOUDFLARE_ANALYTICS_TOKEN, SITE_NAME, SITE_URL };
+export { QC_BASE, SITE_NAME, SITE_URL };

@@ -11,7 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UtilitaRouteImport } from './routes/utilita'
 import { Route as TerminiRouteImport } from './routes/termini'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ScorteRouteImport } from './routes/scorte'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as DesignRouteImport } from './routes/design'
 import { Route as CookieRouteImport } from './routes/cookie'
@@ -34,9 +36,19 @@ const TerminiRoute = TerminiRouteImport.update({
   path: '/termini',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ScorteRoute = ScorteRouteImport.update({
   id: '/scorte',
   path: '/scorte',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -103,7 +115,9 @@ export interface FileRoutesByFullPath {
   '/cookie': typeof CookieRoute
   '/design': typeof DesignRoute
   '/privacy': typeof PrivacyRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/scorte': typeof ScorteRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/termini': typeof TerminiRoute
   '/utilita': typeof UtilitaRoute
   '/quale-conviene/$category': typeof QualeConvieneCategoryRoute
@@ -117,7 +131,9 @@ export interface FileRoutesByTo {
   '/cookie': typeof CookieRoute
   '/design': typeof DesignRoute
   '/privacy': typeof PrivacyRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/scorte': typeof ScorteRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/termini': typeof TerminiRoute
   '/utilita': typeof UtilitaRoute
   '/quale-conviene/$category': typeof QualeConvieneCategoryRoute
@@ -134,7 +150,9 @@ export interface FileRoutesById {
   '/cookie': typeof CookieRoute
   '/design': typeof DesignRoute
   '/privacy': typeof PrivacyRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/scorte': typeof ScorteRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/termini': typeof TerminiRoute
   '/utilita': typeof UtilitaRoute
   '/quale-conviene/$category': typeof QualeConvieneCategoryRoute
@@ -152,7 +170,9 @@ export interface FileRouteTypes {
     | '/cookie'
     | '/design'
     | '/privacy'
+    | '/robots.txt'
     | '/scorte'
+    | '/sitemap.xml'
     | '/termini'
     | '/utilita'
     | '/quale-conviene/$category'
@@ -166,7 +186,9 @@ export interface FileRouteTypes {
     | '/cookie'
     | '/design'
     | '/privacy'
+    | '/robots.txt'
     | '/scorte'
+    | '/sitemap.xml'
     | '/termini'
     | '/utilita'
     | '/quale-conviene/$category'
@@ -182,7 +204,9 @@ export interface FileRouteTypes {
     | '/cookie'
     | '/design'
     | '/privacy'
+    | '/robots.txt'
     | '/scorte'
+    | '/sitemap.xml'
     | '/termini'
     | '/utilita'
     | '/quale-conviene/$category'
@@ -199,7 +223,9 @@ export interface RootRouteChildren {
   CookieRoute: typeof CookieRoute
   DesignRoute: typeof DesignRoute
   PrivacyRoute: typeof PrivacyRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
   ScorteRoute: typeof ScorteRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TerminiRoute: typeof TerminiRoute
   UtilitaRoute: typeof UtilitaRoute
 }
@@ -220,11 +246,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TerminiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/scorte': {
       id: '/scorte'
       path: '/scorte'
       fullPath: '/scorte'
       preLoaderRoute: typeof ScorteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -342,7 +382,9 @@ const rootRouteChildren: RootRouteChildren = {
   CookieRoute: CookieRoute,
   DesignRoute: DesignRoute,
   PrivacyRoute: PrivacyRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
   ScorteRoute: ScorteRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TerminiRoute: TerminiRoute,
   UtilitaRoute: UtilitaRoute,
 }

@@ -56,11 +56,17 @@ function RootComponent() {
   );
 }
 
+// Applica la classe .dark prima dell'hydration leggendo rc:theme, così non c'è
+// flash bianco per chi ha il tema scuro salvato. Vedi components/ThemeToggle.
+const THEME_BOOTSTRAP = `(function(){try{var t=localStorage.getItem('rc:theme');var d;if(t==='dark'){d=true;}else if(t==='light'){d=false;}else{d=matchMedia('(prefers-color-scheme: dark)').matches;}if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
+
 function RootDocument({ children }: { children: ReactNode }) {
   return (
-    <html lang="it">
+    <html lang="it" suppressHydrationWarning>
       <head>
         <HeadContent />
+        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: theme bootstrap must run before hydration */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} />
       </head>
       <body className="min-h-screen bg-background text-foreground">
         {children}
