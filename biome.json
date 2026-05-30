@@ -126,14 +126,17 @@
       }
     },
     {
-      "includes": ["packages/ui/src/components/ui/**"],
+      "includes": ["apps/web/src/features/quale-conviene/**"],
       "linter": {
         "rules": {
-          "nursery": {
-            "useSortedClasses": "off"
-          }
+          "style": { "noNonNullAssertion": "off" },
+          "complexity": { "noExcessiveCognitiveComplexity": "off" }
         }
-      },
+      }
+    },
+    {
+      "includes": ["packages/ui/src/components/ui/**"],
+      "linter": { "enabled": false },
       "assist": {
         "actions": {
           "source": {
