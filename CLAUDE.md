@@ -38,3 +38,18 @@ L'app è un contenitore di sotto-app, ognuna con un **tema** (palette) diverso c
 - I temi sono pure classi: qualsiasi sottoalbero può adottarne uno (es. le card della home e la route `/design` mostrano i temi affiancati).
 - Aggiungere una sotto-app = voce in `APPS` + classe `.theme-<slug>` in `themes.css` + route + chiavi i18n `subapps.<slug>.*`.
 - Mascotte: per ora placeholder (icona lucide in `MascotSlot`); illustrazioni vere più avanti.
+
+## Sotto-app "Quale conviene"
+
+Portata da un repo standalone in `apps/web/src/features/quale-conviene/` (logica `lib/*` + dati `data/categories.ts`, 100% client-side, persistenza `localStorage` `qc:*`, test golden `lib/*.test.ts`) e route `apps/web/src/routes/quale-conviene/{route,index,$category,confronta}.tsx`.
+
+- I componenti portati importano da un layer compat `features/quale-conviene/components/app/*` che rimappa su `@rc/ui` (il `Button` adatta `asChild`→`render` di Base UI). Le utility "brand" originali (gradient/glass/Poppins) sono de-brandizzate sul tema teal.
+- I dir portati (`features/quale-conviene/**`, `routes/quale-conviene/**`) sono trattati come **vendored** in `biome.json` (regole stilistiche disattivate). I primitivi shadcn in `packages/ui/src/components/ui/**` hanno il linter disattivato.
+- SEO/`head()` per categoria in `lib/seo.ts` (URL con prefisso `/quale-conviene`, `VITE_SITE_URL`).
+
+## Site-wide
+- **Dark mode**: `ThemeToggle` (chiave `rc:theme`) nell'`Header` + bootstrap pre-hydration in `__root`.
+- **Cookie consent**: `apps/web/src/lib/consent.ts` + `components/CookieConsent.tsx` (vanilla-cookieconsent), montato in `__root`; riapertura via `data-cc="show-preferencesModal"` nel footer.
+- **Analytics**: GA4 env-driven (`VITE_GA_MEASUREMENT_ID`, no-op se assente) in `lib/analytics.ts` + Consent Mode v2 bootstrap; caricato solo dopo consenso.
+- **SEO**: `routes/sitemap[.]xml.ts` + `robots[.]txt.ts` (aggregano sotto-app + categorie).
+- **PWA**: `public/manifest.json` + `icon.svg` (placeholder) + `sw.js`; `ServiceWorkerRegister` (solo prod).
