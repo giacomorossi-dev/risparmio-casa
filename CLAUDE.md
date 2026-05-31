@@ -50,10 +50,11 @@ Portata da un repo standalone in `apps/web/src/features/quale-conviene/` (logica
 
 ### Decisioni accettate (porting)
 - **i18n**: copy/FAQ/guide delle categorie restano **inline in italiano** in `data/categories.ts` (~2 k righe). Non migrate a `@rc/i18n`: l'app è IT-only e la mole non giustifica la traduzione; le stringhe di shell (header/footer/legali) usano invece `@rc/i18n`.
-- **Test**: la matematica (contratto) è coperta dai test golden `lib/*.test.ts` (35). I percorsi utente (home/ricerca, categoria, share `?d=`, wizard, SEO/JSON-LD) sono coperti da una suite **e2e Playwright** in `apps/web/e2e/` (`playwright.config.ts`, script `test:e2e` → task turbo, job `e2e` in `ci.yml`) che gira contro il **build SSR di produzione**. Lo SSR di Clerk pretende chiavi valide per renderizzare: la config legge `.env` in locale; in CI servono i secret `CLERK_SECRET_KEY`/`CLERK_PUBLISHABLE_KEY` (istanza dev), altrimenti il job si salta senza fallire.
+- **Test**: la matematica (contratto) è coperta dai test golden `lib/*.test.ts` (35). I percorsi utente (home/ricerca, categoria, share `?d=`, wizard, SEO/JSON-LD) sono coperti da una suite **e2e Playwright** in `apps/web/e2e/` (`playwright.config.ts`, script `test:e2e` → task turbo, job `e2e` in `ci.yml`) che gira contro il **build SSR di produzione**, in modalità **key-less** (Clerk disattivato, vedi sotto): nessun secret richiesto, né in locale né in CI.
 - **PWA**: `icon.svg`/`manifest.json` usano un'icona **placeholder**; le icone PNG di brand (192/512, maskable) vanno generate quando il brand è definito.
 
 ## Site-wide
+- **Auth (Clerk, opzionale)**: `clerkMiddleware` SSR in `start.ts` + `<ClerkProvider>` in `__root` + controlli in `components/AuthControls.tsx`. Tutto è gated su `src/lib/clerk.ts` (`clerkEnabled` = presenza di `VITE_CLERK_PUBLISHABLE_KEY`) lato client e su `CLERK_SECRET_KEY`/`OFFLINE_AUTH` lato server: **senza chiavi il sito rende lo stesso** (niente 500, niente controlli auth) invece di fallire. Le route pubbliche non usano auth server-side.
 - **Dark mode**: `ThemeToggle` (chiave `rc:theme`) nell'`Header` + bootstrap pre-hydration in `__root`.
 - **Cookie consent**: `apps/web/src/lib/consent.ts` + `components/CookieConsent.tsx` (vanilla-cookieconsent), montato in `__root`; riapertura via `data-cc="show-preferencesModal"` nel footer.
 - **Analytics**: GA4 env-driven (`VITE_GA_MEASUREMENT_ID`, no-op se assente) in `lib/analytics.ts` + Consent Mode v2 bootstrap; caricato solo dopo consenso.

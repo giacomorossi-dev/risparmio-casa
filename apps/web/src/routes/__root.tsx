@@ -14,6 +14,7 @@ import { CookieConsent } from '../components/CookieConsent.tsx';
 import { Footer } from '../components/Footer.tsx';
 import { Header } from '../components/Header.tsx';
 import { ServiceWorkerRegister } from '../components/ServiceWorkerRegister.tsx';
+import { clerkEnabled } from '../lib/clerk.ts';
 import appCss from '../styles.css?url';
 
 export const Route = createRootRoute({
@@ -44,23 +45,24 @@ function RootComponent() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const theme = themeForPath(pathname);
 
-  return (
-    <ClerkProvider>
-      <I18nextProvider i18n={i18n}>
-        <RootDocument>
-          <div
-            className={`theme-${theme} flex min-h-screen flex-col bg-background text-foreground`}
-          >
-            <Header />
-            <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-10">
-              <Outlet />
-            </main>
-            <Footer />
-          </div>
-        </RootDocument>
-      </I18nextProvider>
-    </ClerkProvider>
+  const tree = (
+    <I18nextProvider i18n={i18n}>
+      <RootDocument>
+        <div className={`theme-${theme} flex min-h-screen flex-col bg-background text-foreground`}>
+          <Header />
+          <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-10">
+            <Outlet />
+          </main>
+          <Footer />
+        </div>
+      </RootDocument>
+    </I18nextProvider>
   );
+
+  // Senza publishable key (deploy senza auth, e2e/CI) si rende senza ClerkProvider:
+  // niente clerk-js, niente crash. Con `clerkEnabled` costante a build-time, il
+  // ramo e l'import di ClerkProvider sono dead-code-eliminati nei build key-less.
+  return clerkEnabled ? <ClerkProvider>{tree}</ClerkProvider> : tree;
 }
 
 // Applica la classe .dark prima dell'hydration leggendo rc:theme, così non c'è
