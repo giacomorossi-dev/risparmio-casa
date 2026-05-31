@@ -1,11 +1,11 @@
+import { Button } from '@rc/ui/components/button';
+import { Input } from '@rc/ui/components/input';
+import { Label } from '@rc/ui/components/label';
 import { cn } from '@rc/ui/lib/utils';
 import { ChevronDown, ChevronUp, Droplet, Hash, Scale, Sparkles, SprayCan } from 'lucide-react';
 import { useState } from 'react';
 import { buildCustomCategory, type CustomCategoryInput } from '../lib/custom-category.ts';
 import type { CategoryDefinition, ContextId } from '../lib/pricing.ts';
-import { Button } from './app/button.tsx';
-import { Input } from './app/input.tsx';
-import { Label } from './app/label.tsx';
 
 interface Props {
   /** Pre-fills the name field (e.g. from `?q=` search query). */
@@ -257,7 +257,7 @@ export default function CustomCategoryWizard({ initialName = '', onComplete }: P
       </div>
 
       <div className="flex justify-end">
-        <Button type="submit" variant="gradient" size="lg" disabled={!canSubmit}>
+        <Button type="submit" size="lg" disabled={!canSubmit}>
           Inizia confronto
         </Button>
       </div>

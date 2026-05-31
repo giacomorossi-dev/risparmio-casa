@@ -1,7 +1,7 @@
+import { Button } from '@rc/ui/components/button';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { ArrowLeft, RotateCcw, Wand2 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Button } from '../../features/quale-conviene/components/app/button.tsx';
 import Comparator from '../../features/quale-conviene/components/Comparator.tsx';
 import CustomCategoryWizard from '../../features/quale-conviene/components/CustomCategoryWizard.tsx';
 import SectionIcon from '../../features/quale-conviene/components/SectionIcon.tsx';

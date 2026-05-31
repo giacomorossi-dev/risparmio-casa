@@ -1,7 +1,7 @@
+import { Card, CardDescription, CardHeader, CardTitle } from '@rc/ui/components/card';
 import { Link } from '@tanstack/react-router';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import type { CategoryDefinition } from '../lib/pricing.ts';
-import { Card, CardDescription, CardHeader, CardTitle } from './app/card.tsx';
 
 interface Props {
   category: CategoryDefinition;

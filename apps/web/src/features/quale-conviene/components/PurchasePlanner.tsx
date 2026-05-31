@@ -1,3 +1,5 @@
+import { Button } from '@rc/ui/components/button';
+import { Input } from '@rc/ui/components/input';
 import { Calculator, RotateCcw } from 'lucide-react';
 import { useState } from 'react';
 import {
@@ -6,8 +8,6 @@ import {
   getCategoryBaseLabel,
   getCategoryBaseLabelPlural,
 } from '../lib/pricing.ts';
-import { Button } from './app/button.tsx';
-import { Input } from './app/input.tsx';
 import SectionIcon from './SectionIcon.tsx';
 
 interface Props {

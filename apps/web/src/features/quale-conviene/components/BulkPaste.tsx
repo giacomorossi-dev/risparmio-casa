@@ -1,9 +1,9 @@
+import { Button } from '@rc/ui/components/button';
+import { Textarea } from '@rc/ui/components/textarea';
 import { ClipboardPaste, X } from 'lucide-react';
 import { useId, useState } from 'react';
 import { parseBulkPaste } from '../lib/bulk-paste.ts';
 import type { CategoryDefinition, ProductEntry } from '../lib/pricing.ts';
-import { Button } from './app/button.tsx';
-import { Textarea } from './app/textarea.tsx';
 
 interface Props {
   category: CategoryDefinition;

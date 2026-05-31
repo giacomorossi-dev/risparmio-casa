@@ -1,8 +1,8 @@
+import { Button } from '@rc/ui/components/button';
+import { Input } from '@rc/ui/components/input';
 import { Search, X } from 'lucide-react';
 import type { ChangeEvent } from 'react';
 import type { CategoryDefinition } from '../lib/pricing.ts';
-import { Button } from './app/button.tsx';
-import { Input } from './app/input.tsx';
 
 interface Props {
   query: string;

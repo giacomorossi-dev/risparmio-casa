@@ -1,5 +1,5 @@
+import { Button } from '@rc/ui/components/button';
 import { HelpCircle } from 'lucide-react';
-import { Button } from './app/button.tsx';
 
 const OPEN_EVENT = 'qc:open-onboarding';
 

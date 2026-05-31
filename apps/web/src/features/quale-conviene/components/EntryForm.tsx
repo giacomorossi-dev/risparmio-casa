@@ -1,3 +1,13 @@
+import { Button } from '@rc/ui/components/button';
+import { Input } from '@rc/ui/components/input';
+import { Label } from '@rc/ui/components/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@rc/ui/components/select';
 import { cn } from '@rc/ui/lib/utils';
 import { AlertCircle, ChevronDown, Trash2 } from 'lucide-react';
 import { useState } from 'react';
@@ -8,10 +18,6 @@ import {
   getCategoryUnits,
   type ProductEntry,
 } from '../lib/pricing.ts';
-import { Button } from './app/button.tsx';
-import { Input } from './app/input.tsx';
-import { Label } from './app/label.tsx';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './app/select.tsx';
 
 const eur = new Intl.NumberFormat('it-IT', {
   style: 'currency',

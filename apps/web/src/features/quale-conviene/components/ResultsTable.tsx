@@ -1,3 +1,11 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@rc/ui/components/table';
 import { cn } from '@rc/ui/lib/utils';
 import { Crown } from 'lucide-react';
 import {
@@ -6,7 +14,6 @@ import {
   getCategoryBaseLabel,
   getCategoryBaseLabelPlural,
 } from '../lib/pricing.ts';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './app/table.tsx';
 
 interface Props {
   category: CategoryDefinition;

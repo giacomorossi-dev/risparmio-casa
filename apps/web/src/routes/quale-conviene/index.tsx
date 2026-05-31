@@ -1,7 +1,7 @@
+import { Button } from '@rc/ui/components/button';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { ArrowRight, LayoutGrid, Wand2 } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { Button } from '../../features/quale-conviene/components/app/button.tsx';
 import CategoryCard from '../../features/quale-conviene/components/CategoryCard.tsx';
 import CategorySearch, {
   matchesCategory,
@@ -69,11 +69,12 @@ function Home() {
               Nessuna categoria trovata per <strong>«{query}»</strong>. Prova con un sinonimo o crea
               un confronto su misura.
             </p>
-            <Button asChild variant="gradient">
-              <Link to="/quale-conviene/confronta" search={{ q: query } as never}>
-                <Wand2 className="h-4 w-4" />
-                Crea un confronto per «{query}»
-              </Link>
+            <Button
+              render={<Link to="/quale-conviene/confronta" search={{ q: query } as never} />}
+              nativeButton={false}
+            >
+              <Wand2 className="h-4 w-4" />
+              Crea un confronto per «{query}»
             </Button>
           </div>
         ) : (
@@ -111,11 +112,9 @@ function Home() {
               un nome alle unità, e parti. Funziona per qualunque cosa.
             </p>
           </div>
-          <Button asChild variant="gradient" size="lg">
-            <Link to="/quale-conviene/confronta">
-              Crea confronto
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+          <Button render={<Link to="/quale-conviene/confronta" />} nativeButton={false} size="lg">
+            Crea confronto
+            <ArrowRight className="h-4 w-4" />
           </Button>
         </div>
       </section>

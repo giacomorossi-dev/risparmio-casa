@@ -1,7 +1,7 @@
+import { Button } from '@rc/ui/components/button';
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@rc/ui/components/dialog';
 import { ArrowLeft, ArrowRight, Heart, Scale, Sparkles, Trophy } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
-import { Button } from './app/button.tsx';
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from './app/dialog.tsx';
 
 const STORAGE_KEY = 'qc:onboarding-seen';
 const OPEN_EVENT = 'qc:open-onboarding';
@@ -220,11 +220,14 @@ function StepSupport() {
         pubblicità invadenti.
       </p>
       <div className="flex justify-center pt-2">
-        <Button asChild variant="gradient" size="lg">
-          <a href={KOFI_URL} target="_blank" rel="noopener noreferrer">
-            <Heart className="h-4 w-4" />
-            Supporta il progetto
-          </a>
+        <Button
+          // biome-ignore lint/a11y/useAnchorContent: il contenuto dell'anchor è fornito dai children di <Button> via il pattern render di Base UI
+          render={<a href={KOFI_URL} target="_blank" rel="noopener noreferrer" />}
+          nativeButton={false}
+          size="lg"
+        >
+          <Heart className="h-4 w-4" />
+          Supporta il progetto
         </Button>
       </div>
       <p className="text-center text-xs text-muted-foreground">
@@ -285,7 +288,6 @@ function StepFooter({
       </span>
       <Button
         type="button"
-        variant="gradient"
         size="sm"
         onClick={onNext}
         aria-label={isLast ? 'Chiudi il tutorial' : 'Vai allo step successivo'}
