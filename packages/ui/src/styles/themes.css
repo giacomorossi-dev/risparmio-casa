@@ -1,0 +1,82 @@
+/*
+ * Temi per-sotto-app. Ogni classe .theme-* ridichiara solo i token "superficie"
+ * (background/card/popover/primary/accent/ring/radius); foreground, muted, border,
+ * input, destructive restano ereditati da :root/.dark (contrasto sicuro).
+ * Si applicano su un <div> ancestor dello shell: le custom property si risolvono
+ * per prossimità DOM, quindi vincono sui token di :root. In dark mode valgono le
+ * regole .dark .theme-* (specificità maggiore, stesso elemento).
+ * Vedi apps/web/src/apps.ts e routes/__root.tsx.
+ */
+
+/* site = brand neutro: nessuna regola → la classe .theme-site eredita :root / .dark. */
+
+/* ---- quale-conviene: teal / menta ----
+ * Primary scuro+saturo con foreground bianco: contrasto AA sia per i pulsanti
+ * sia per testo/icone bianchi su bg-primary (hero, SectionIcon). */
+.theme-quale-conviene {
+  --radius: 0.9rem;
+  --background: oklch(0.985 0.012 178);
+  --card: oklch(0.996 0.008 178);
+  --popover: oklch(0.996 0.008 178);
+  --primary: oklch(0.52 0.1 192);
+  --primary-foreground: oklch(0.985 0.01 192);
+  --accent: oklch(0.94 0.045 192);
+  --accent-foreground: oklch(0.34 0.07 192);
+  --ring: oklch(0.52 0.1 192);
+}
+.dark .theme-quale-conviene {
+  --background: oklch(0.19 0.02 192);
+  --card: oklch(0.24 0.025 192);
+  --popover: oklch(0.24 0.025 192);
+  --primary: oklch(0.7 0.12 192);
+  --primary-foreground: oklch(0.16 0.02 192);
+  --accent: oklch(0.3 0.05 192);
+  --accent-foreground: oklch(0.92 0.03 192);
+  --ring: oklch(0.62 0.11 192);
+}
+
+/* ---- scorte: ambra / pesca ---- */
+.theme-scorte {
+  --radius: 0.9rem;
+  --background: oklch(0.99 0.012 75);
+  --card: oklch(0.997 0.008 75);
+  --popover: oklch(0.997 0.008 75);
+  --primary: oklch(0.78 0.12 70);
+  --primary-foreground: oklch(0.28 0.05 60);
+  --accent: oklch(0.95 0.05 75);
+  --accent-foreground: oklch(0.35 0.06 60);
+  --ring: oklch(0.78 0.12 70);
+}
+.dark .theme-scorte {
+  --background: oklch(0.2 0.02 65);
+  --card: oklch(0.25 0.025 65);
+  --popover: oklch(0.25 0.025 65);
+  --primary: oklch(0.82 0.12 75);
+  --primary-foreground: oklch(0.2 0.03 60);
+  --accent: oklch(0.32 0.04 65);
+  --accent-foreground: oklch(0.93 0.03 75);
+  --ring: oklch(0.68 0.1 70);
+}
+
+/* ---- utilita: violetto / pervinca ---- */
+.theme-utilita {
+  --radius: 0.9rem;
+  --background: oklch(0.985 0.012 290);
+  --card: oklch(0.996 0.008 290);
+  --popover: oklch(0.996 0.008 290);
+  --primary: oklch(0.62 0.13 290);
+  --primary-foreground: oklch(0.985 0.01 290);
+  --accent: oklch(0.95 0.04 290);
+  --accent-foreground: oklch(0.32 0.07 290);
+  --ring: oklch(0.62 0.13 290);
+}
+.dark .theme-utilita {
+  --background: oklch(0.2 0.025 290);
+  --card: oklch(0.25 0.03 290);
+  --popover: oklch(0.25 0.03 290);
+  --primary: oklch(0.72 0.13 290);
+  --primary-foreground: oklch(0.18 0.02 290);
+  --accent: oklch(0.32 0.05 290);
+  --accent-foreground: oklch(0.92 0.03 290);
+  --ring: oklch(0.62 0.11 290);
+}

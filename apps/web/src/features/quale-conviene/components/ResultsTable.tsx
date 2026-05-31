@@ -1,0 +1,185 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@rc/ui/components/table';
+import { cn } from '@rc/ui/lib/utils';
+import { Crown } from 'lucide-react';
+import {
+  type CategoryDefinition,
+  type ComputedEntry,
+  getCategoryBaseLabel,
+  getCategoryBaseLabelPlural,
+} from '../lib/pricing.ts';
+
+interface Props {
+  category: CategoryDefinition;
+  results: ComputedEntry[];
+}
+
+const eur = new Intl.NumberFormat('it-IT', {
+  style: 'currency',
+  currency: 'EUR',
+});
+
+const eurPrecise = new Intl.NumberFormat('it-IT', {
+  style: 'currency',
+  currency: 'EUR',
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 5,
+});
+
+const pct = new Intl.NumberFormat('it-IT', {
+  maximumFractionDigits: 1,
+  signDisplay: 'exceptZero',
+});
+
+const pctMagnitude = new Intl.NumberFormat('it-IT', {
+  maximumFractionDigits: 1,
+});
+
+/**
+ * For very small €/base values (< 0.01 €), switch to a "€/100 X" display so
+ * the number is comfortably readable (e.g. 0,366 € / 100 fogli rather than
+ * 0,00366 € / foglio).
+ */
+function chooseBaseDisplay(
+  category: CategoryDefinition,
+  results: ComputedEntry[],
+): { label: string; multiplier: number } {
+  const validBest = results.find((r) => !r.invalid)?.pricePerBase;
+  if (validBest && validBest > 0 && validBest < 0.01) {
+    return {
+      label: `100 ${getCategoryBaseLabelPlural(category)}`,
+      multiplier: 100,
+    };
+  }
+  return { label: getCategoryBaseLabel(category), multiplier: 1 };
+}
+
+export default function ResultsTable({ category, results }: Props) {
+  if (results.length === 0) {
+    return (
+      <div className="py-8 text-center text-sm text-muted-foreground">
+        Aggiungi almeno un prodotto per vedere il confronto.
+      </div>
+    );
+  }
+
+  const allInvalid = results.every((r) => r.invalid);
+
+  // Hide a level column when no row has it set (optional levels left empty).
+  const visibleLevels = category.levels.filter((level) =>
+    results.some((r) => r.pricePerLevel[level.id] !== undefined),
+  );
+
+  const baseDisplay = chooseBaseDisplay(category, results);
+
+  // Largest gap → "Risparmi fino al X%" badge on the winner.
+  const maxDiff = results
+    .filter((r) => !r.invalid && Number.isFinite(r.diffPctFromBest))
+    .reduce((m, r) => Math.max(m, r.diffPctFromBest), 0);
+
+  return (
+    <div
+      className="overflow-x-auto rounded-lg border bg-card shadow-sm [&_tbody_td]:py-3.5 [&_thead_th]:h-12"
+      role="region"
+      aria-label="Risultati del confronto"
+      aria-live="polite"
+    >
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="hidden w-12 sm:table-cell">#</TableHead>
+            <TableHead>Prodotto</TableHead>
+            <TableHead className="text-right">Prezzo</TableHead>
+            {visibleLevels.map((level) => (
+              <TableHead key={level.id} className="hidden text-right sm:table-cell">
+                €/{level.label}
+              </TableHead>
+            ))}
+            <TableHead className="text-right font-semibold">€/{baseDisplay.label}</TableHead>
+            <TableHead className="hidden text-right sm:table-cell">vs migliore</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {results.map((r, i) => (
+            <TableRow
+              // biome-ignore lint/suspicious/noArrayIndexKey: riga di sola lettura derivata posizionalmente da `entries`; nessuno stato locale, ri-renderizzata in blocco
+              key={i}
+              className={cn(
+                r.invalid && 'opacity-50',
+                !r.invalid && r.rank === 1 && 'bg-emerald-50 dark:bg-emerald-950/20',
+              )}
+            >
+              <TableCell className="hidden font-medium sm:table-cell">
+                {!r.invalid && r.rank === 1 ? (
+                  <span className="inline-flex items-center gap-1.5">
+                    {r.rank}
+                    <Crown className="h-5 w-5 fill-yellow-400 text-yellow-500" />
+                  </span>
+                ) : (
+                  r.rank
+                )}
+              </TableCell>
+              <TableCell className="font-medium">
+                <div className="flex flex-col gap-0.5">
+                  <span className="flex items-center gap-1">
+                    {/* On mobile we drop the rank column, so show the crown here instead. */}
+                    {!r.invalid && r.rank === 1 && (
+                      <Crown
+                        className="h-5 w-5 shrink-0 fill-yellow-400 text-yellow-500 sm:hidden"
+                        aria-label="Vincitore"
+                      />
+                    )}
+                    <span className="truncate">{r.entry.name?.trim() || `Prodotto ${i + 1}`}</span>
+                  </span>
+                  {!r.invalid && r.rank === 1 && maxDiff > 0 && (
+                    <span className="text-xs font-normal text-emerald-700 dark:text-emerald-400">
+                      Risparmi fino al {pctMagnitude.format(maxDiff)}%
+                    </span>
+                  )}
+                  {/* Compact mobile delta replacing the hidden "vs migliore" column. */}
+                  {!r.invalid && r.rank !== 1 && Number.isFinite(r.diffPctFromBest) && (
+                    <span className="text-xs font-normal text-destructive sm:hidden">
+                      {pct.format(r.diffPctFromBest)} % vs migliore
+                    </span>
+                  )}
+                </div>
+              </TableCell>
+              <TableCell className="text-right">
+                {r.invalid ? '—' : eur.format(r.entry.price)}
+              </TableCell>
+              {visibleLevels.map((level) => (
+                <TableCell key={level.id} className="hidden text-right tabular-nums sm:table-cell">
+                  {r.invalid || r.pricePerLevel[level.id] === undefined
+                    ? '—'
+                    : eurPrecise.format(r.pricePerLevel[level.id]!)}
+                </TableCell>
+              ))}
+              <TableCell className="text-right font-semibold tabular-nums">
+                {r.invalid ? '—' : eurPrecise.format(r.pricePerBase * baseDisplay.multiplier)}
+              </TableCell>
+              <TableCell
+                className={cn(
+                  'hidden text-right tabular-nums text-sm sm:table-cell',
+                  !r.invalid && r.rank !== 1 ? 'text-destructive' : 'text-muted-foreground',
+                )}
+              >
+                {r.invalid ? '—' : r.rank === 1 ? '—' : `${pct.format(r.diffPctFromBest)} %`}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      {allInvalid && (
+        <div className="border-t p-3 text-center text-sm text-muted-foreground">
+          Inserisci prezzo, quantità e i count di tutti i livelli per ottenere il confronto.
+        </div>
+      )}
+    </div>
+  );
+}

@@ -9,20 +9,14 @@ import {
 } from '@rc/ui/components/card';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
+import { APPS } from '../apps.ts';
+import { MascotSlot } from '../components/MascotSlot.tsx';
+import { canonical } from '../lib/site.ts';
 
 export const Route = createFileRoute('/')({
+  head: () => ({ links: canonical('/') }),
   component: HomePage,
 });
-
-type SubAppDef = {
-  slug: 'quale-conviene' | 'scorte';
-  tier: 'free' | 'premium';
-};
-
-const SUBAPPS: readonly SubAppDef[] = [
-  { slug: 'quale-conviene', tier: 'free' },
-  { slug: 'scorte', tier: 'premium' },
-];
 
 function HomePage() {
   const { t } = useTranslation();
@@ -42,22 +36,27 @@ function HomePage() {
       </section>
 
       <section id="subapps" className="grid gap-6 sm:grid-cols-2">
-        {SUBAPPS.map(({ slug, tier }) => (
-          <Card key={slug}>
+        {APPS.map((app) => (
+          <Card key={app.slug} className={`theme-${app.theme}`}>
             <CardHeader>
-              <CardTitle>{t(`subapps.${slug}.title`)}</CardTitle>
+              <MascotSlot
+                icon={app.mascot}
+                label={t(`subapps.${app.slug}.title`)}
+                className="mb-2"
+              />
+              <CardTitle>{t(`subapps.${app.slug}.title`)}</CardTitle>
               <CardAction>
                 <span className="text-muted-foreground text-xs uppercase tracking-wide">
-                  {tier === 'free' ? t('common.free') : t('common.premium')}
+                  {app.tier === 'free' ? t('common.free') : t('common.premium')}
                 </span>
               </CardAction>
-              <CardDescription>{t(`subapps.${slug}.description`)}</CardDescription>
+              <CardDescription>{t(`subapps.${app.slug}.description`)}</CardDescription>
             </CardHeader>
             <CardContent>
               <Button
                 variant="outline"
                 nativeButton={false}
-                render={<Link to={`/${slug}`}>{t('common.comingSoon')} →</Link>}
+                render={<Link to={`/${app.slug}`}>{t('common.comingSoon')} →</Link>}
               />
             </CardContent>
           </Card>

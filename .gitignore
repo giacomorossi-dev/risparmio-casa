@@ -30,3 +30,4 @@ test-results/
 bun.lockb
 .bun-cache/
 .playwright-mcp/
+.tanstack/

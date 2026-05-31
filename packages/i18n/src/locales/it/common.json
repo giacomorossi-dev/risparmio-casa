@@ -24,6 +24,10 @@
     "scorte": {
       "title": "Scorte di casa",
       "description": "Tieni traccia di ciò che hai in dispensa e ricevi promemoria per le scadenze."
+    },
+    "utilita": {
+      "title": "Utilità",
+      "description": "Piccoli strumenti pratici: conversioni, consigli e best practice per la casa."
     }
   },
   "common": {
@@ -50,7 +54,8 @@
       "contact": "Contatti",
       "privacy": "Privacy",
       "terms": "Termini di servizio",
-      "cookie": "Cookie policy"
+      "cookie": "Cookie policy",
+      "cookiePrefs": "Preferenze cookie"
     },
     "rights": "Tutti i diritti riservati."
   },

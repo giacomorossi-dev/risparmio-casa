@@ -1,18 +1,13 @@
 import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 
+import { APPS } from '../apps.ts';
+
 export const Footer = () => {
   const { t } = useTranslation();
   const year = new Date().getFullYear();
 
-  const sections = [
-    {
-      title: t('footer.sections.apps'),
-      links: [
-        { label: t('subapps.quale-conviene.title'), to: '/quale-conviene' },
-        { label: t('subapps.scorte.title'), to: '/scorte' },
-      ],
-    },
+  const staticSections = [
     {
       title: t('footer.sections.company'),
       links: [
@@ -39,7 +34,23 @@ export const Footer = () => {
             <p className="max-w-xs text-muted-foreground text-sm">{t('app.tagline')}</p>
           </div>
 
-          {sections.map((section) => (
+          <nav className="flex flex-col gap-3" aria-label={t('footer.sections.apps')}>
+            <span className="font-medium text-sm">{t('footer.sections.apps')}</span>
+            <ul className="flex flex-col gap-2">
+              {APPS.map((app) => (
+                <li key={app.slug}>
+                  <Link
+                    to={`/${app.slug}`}
+                    className="text-muted-foreground text-sm transition-colors hover:text-foreground"
+                  >
+                    {t(`subapps.${app.slug}.title`)}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {staticSections.map((section) => (
             <nav key={section.title} className="flex flex-col gap-3" aria-label={section.title}>
               <span className="font-medium text-sm">{section.title}</span>
               <ul className="flex flex-col gap-2">
@@ -69,6 +80,13 @@ export const Footer = () => {
             <Link to="/cookie" className="transition-colors hover:text-foreground">
               {t('footer.links.cookie')}
             </Link>
+            <button
+              type="button"
+              data-cc="show-preferencesModal"
+              className="transition-colors hover:text-foreground"
+            >
+              {t('footer.links.cookiePrefs')}
+            </button>
           </nav>
         </div>
       </div>

@@ -9,19 +9,36 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UtilitaRouteImport } from './routes/utilita'
 import { Route as TerminiRouteImport } from './routes/termini'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ScorteRouteImport } from './routes/scorte'
-import { Route as QualeConvieneRouteImport } from './routes/quale-conviene'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as DesignRouteImport } from './routes/design'
 import { Route as CookieRouteImport } from './routes/cookie'
 import { Route as ContattiRouteImport } from './routes/contatti'
+import { Route as QualeConvieneRouteRouteImport } from './routes/quale-conviene/route'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as QualeConvieneIndexRouteImport } from './routes/quale-conviene/index'
 import { Route as AppIndexRouteImport } from './routes/app/index'
+import { Route as QualeConvieneConfrontaRouteImport } from './routes/quale-conviene/confronta'
+import { Route as QualeConvieneCategoryRouteImport } from './routes/quale-conviene/$category'
 
+const UtilitaRoute = UtilitaRouteImport.update({
+  id: '/utilita',
+  path: '/utilita',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TerminiRoute = TerminiRouteImport.update({
   id: '/termini',
   path: '/termini',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ScorteRoute = ScorteRouteImport.update({
@@ -29,14 +46,19 @@ const ScorteRoute = ScorteRouteImport.update({
   path: '/scorte',
   getParentRoute: () => rootRouteImport,
 } as any)
-const QualeConvieneRoute = QualeConvieneRouteImport.update({
-  id: '/quale-conviene',
-  path: '/quale-conviene',
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DesignRoute = DesignRouteImport.update({
+  id: '/design',
+  path: '/design',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CookieRoute = CookieRouteImport.update({
@@ -49,6 +71,11 @@ const ContattiRoute = ContattiRouteImport.update({
   path: '/contatti',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QualeConvieneRouteRoute = QualeConvieneRouteRouteImport.update({
+  id: '/quale-conviene',
+  path: '/quale-conviene',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppRouteRoute = AppRouteRouteImport.update({
   id: '/app',
   path: '/app',
@@ -59,98 +86,171 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QualeConvieneIndexRoute = QualeConvieneIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => QualeConvieneRouteRoute,
+} as any)
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const QualeConvieneConfrontaRoute = QualeConvieneConfrontaRouteImport.update({
+  id: '/confronta',
+  path: '/confronta',
+  getParentRoute: () => QualeConvieneRouteRoute,
+} as any)
+const QualeConvieneCategoryRoute = QualeConvieneCategoryRouteImport.update({
+  id: '/$category',
+  path: '/$category',
+  getParentRoute: () => QualeConvieneRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
+  '/quale-conviene': typeof QualeConvieneRouteRouteWithChildren
   '/contatti': typeof ContattiRoute
   '/cookie': typeof CookieRoute
+  '/design': typeof DesignRoute
   '/privacy': typeof PrivacyRoute
-  '/quale-conviene': typeof QualeConvieneRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/scorte': typeof ScorteRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/termini': typeof TerminiRoute
+  '/utilita': typeof UtilitaRoute
+  '/quale-conviene/$category': typeof QualeConvieneCategoryRoute
+  '/quale-conviene/confronta': typeof QualeConvieneConfrontaRoute
   '/app/': typeof AppIndexRoute
+  '/quale-conviene/': typeof QualeConvieneIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contatti': typeof ContattiRoute
   '/cookie': typeof CookieRoute
+  '/design': typeof DesignRoute
   '/privacy': typeof PrivacyRoute
-  '/quale-conviene': typeof QualeConvieneRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/scorte': typeof ScorteRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/termini': typeof TerminiRoute
+  '/utilita': typeof UtilitaRoute
+  '/quale-conviene/$category': typeof QualeConvieneCategoryRoute
+  '/quale-conviene/confronta': typeof QualeConvieneConfrontaRoute
   '/app': typeof AppIndexRoute
+  '/quale-conviene': typeof QualeConvieneIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
+  '/quale-conviene': typeof QualeConvieneRouteRouteWithChildren
   '/contatti': typeof ContattiRoute
   '/cookie': typeof CookieRoute
+  '/design': typeof DesignRoute
   '/privacy': typeof PrivacyRoute
-  '/quale-conviene': typeof QualeConvieneRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/scorte': typeof ScorteRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/termini': typeof TerminiRoute
+  '/utilita': typeof UtilitaRoute
+  '/quale-conviene/$category': typeof QualeConvieneCategoryRoute
+  '/quale-conviene/confronta': typeof QualeConvieneConfrontaRoute
   '/app/': typeof AppIndexRoute
+  '/quale-conviene/': typeof QualeConvieneIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/app'
+    | '/quale-conviene'
     | '/contatti'
     | '/cookie'
+    | '/design'
     | '/privacy'
-    | '/quale-conviene'
+    | '/robots.txt'
     | '/scorte'
+    | '/sitemap.xml'
     | '/termini'
+    | '/utilita'
+    | '/quale-conviene/$category'
+    | '/quale-conviene/confronta'
     | '/app/'
+    | '/quale-conviene/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/contatti'
     | '/cookie'
+    | '/design'
     | '/privacy'
-    | '/quale-conviene'
+    | '/robots.txt'
     | '/scorte'
+    | '/sitemap.xml'
     | '/termini'
+    | '/utilita'
+    | '/quale-conviene/$category'
+    | '/quale-conviene/confronta'
     | '/app'
+    | '/quale-conviene'
   id:
     | '__root__'
     | '/'
     | '/app'
+    | '/quale-conviene'
     | '/contatti'
     | '/cookie'
+    | '/design'
     | '/privacy'
-    | '/quale-conviene'
+    | '/robots.txt'
     | '/scorte'
+    | '/sitemap.xml'
     | '/termini'
+    | '/utilita'
+    | '/quale-conviene/$category'
+    | '/quale-conviene/confronta'
     | '/app/'
+    | '/quale-conviene/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRouteRoute: typeof AppRouteRouteWithChildren
+  QualeConvieneRouteRoute: typeof QualeConvieneRouteRouteWithChildren
   ContattiRoute: typeof ContattiRoute
   CookieRoute: typeof CookieRoute
+  DesignRoute: typeof DesignRoute
   PrivacyRoute: typeof PrivacyRoute
-  QualeConvieneRoute: typeof QualeConvieneRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
   ScorteRoute: typeof ScorteRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TerminiRoute: typeof TerminiRoute
+  UtilitaRoute: typeof UtilitaRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/utilita': {
+      id: '/utilita'
+      path: '/utilita'
+      fullPath: '/utilita'
+      preLoaderRoute: typeof UtilitaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/termini': {
       id: '/termini'
       path: '/termini'
       fullPath: '/termini'
       preLoaderRoute: typeof TerminiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/scorte': {
@@ -160,11 +260,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScorteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/quale-conviene': {
-      id: '/quale-conviene'
-      path: '/quale-conviene'
-      fullPath: '/quale-conviene'
-      preLoaderRoute: typeof QualeConvieneRouteImport
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -172,6 +272,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/design': {
+      id: '/design'
+      path: '/design'
+      fullPath: '/design'
+      preLoaderRoute: typeof DesignRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cookie': {
@@ -188,6 +295,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContattiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/quale-conviene': {
+      id: '/quale-conviene'
+      path: '/quale-conviene'
+      fullPath: '/quale-conviene'
+      preLoaderRoute: typeof QualeConvieneRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app': {
       id: '/app'
       path: '/app'
@@ -202,12 +316,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/quale-conviene/': {
+      id: '/quale-conviene/'
+      path: '/'
+      fullPath: '/quale-conviene/'
+      preLoaderRoute: typeof QualeConvieneIndexRouteImport
+      parentRoute: typeof QualeConvieneRouteRoute
+    }
     '/app/': {
       id: '/app/'
       path: '/'
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRouteRoute
+    }
+    '/quale-conviene/confronta': {
+      id: '/quale-conviene/confronta'
+      path: '/confronta'
+      fullPath: '/quale-conviene/confronta'
+      preLoaderRoute: typeof QualeConvieneConfrontaRouteImport
+      parentRoute: typeof QualeConvieneRouteRoute
+    }
+    '/quale-conviene/$category': {
+      id: '/quale-conviene/$category'
+      path: '/$category'
+      fullPath: '/quale-conviene/$category'
+      preLoaderRoute: typeof QualeConvieneCategoryRouteImport
+      parentRoute: typeof QualeConvieneRouteRoute
     }
   }
 }
@@ -224,15 +359,34 @@ const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
   AppRouteRouteChildren,
 )
 
+interface QualeConvieneRouteRouteChildren {
+  QualeConvieneCategoryRoute: typeof QualeConvieneCategoryRoute
+  QualeConvieneConfrontaRoute: typeof QualeConvieneConfrontaRoute
+  QualeConvieneIndexRoute: typeof QualeConvieneIndexRoute
+}
+
+const QualeConvieneRouteRouteChildren: QualeConvieneRouteRouteChildren = {
+  QualeConvieneCategoryRoute: QualeConvieneCategoryRoute,
+  QualeConvieneConfrontaRoute: QualeConvieneConfrontaRoute,
+  QualeConvieneIndexRoute: QualeConvieneIndexRoute,
+}
+
+const QualeConvieneRouteRouteWithChildren =
+  QualeConvieneRouteRoute._addFileChildren(QualeConvieneRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRouteRoute: AppRouteRouteWithChildren,
+  QualeConvieneRouteRoute: QualeConvieneRouteRouteWithChildren,
   ContattiRoute: ContattiRoute,
   CookieRoute: CookieRoute,
+  DesignRoute: DesignRoute,
   PrivacyRoute: PrivacyRoute,
-  QualeConvieneRoute: QualeConvieneRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
   ScorteRoute: ScorteRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TerminiRoute: TerminiRoute,
+  UtilitaRoute: UtilitaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

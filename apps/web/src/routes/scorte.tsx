@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { useTranslation } from 'react-i18next';
 
+import { appBySlug } from '../apps.ts';
+import { AppHero } from '../components/AppHero.tsx';
 import { ComingSoonPanel } from '../components/ComingSoonPanel.tsx';
 
 export const Route = createFileRoute('/scorte')({
@@ -8,11 +9,10 @@ export const Route = createFileRoute('/scorte')({
 });
 
 function ScortePage() {
-  const { t } = useTranslation();
   return (
-    <ComingSoonPanel
-      title={t('subapps.scorte.title')}
-      description={t('subapps.scorte.description')}
-    />
+    <>
+      <AppHero app={appBySlug('scorte')} />
+      <ComingSoonPanel />
+    </>
   );
 }

@@ -4,8 +4,8 @@ import { type FormEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type Props = {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
 };
 
 export const ComingSoonPanel = ({ title, description }: Props) => {
@@ -21,10 +21,12 @@ export const ComingSoonPanel = ({ title, description }: Props) => {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
-      </CardHeader>
+      {title ? (
+        <CardHeader>
+          <CardTitle>{title}</CardTitle>
+          {description ? <CardDescription>{description}</CardDescription> : null}
+        </CardHeader>
+      ) : null}
       <CardContent className="flex flex-col gap-4">
         <p className="text-muted-foreground text-sm uppercase tracking-wide">
           {t('common.comingSoon')}
