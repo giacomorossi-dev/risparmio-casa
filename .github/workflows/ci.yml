@@ -36,6 +36,13 @@ jobs:
       - name: Lint
         run: bun run lint
 
+      # Genera .sst/platform/config.d.ts (global $app/sst/aws referenziati da
+      # sst.config.ts + infra/**). È gitignorato e prodotto dalla CLI SST: senza,
+      # `tsc -p tsconfig.infra.json` fallisce con "Cannot find name '$app'".
+      # `sst install` non richiede credenziali AWS (scarica solo i provider).
+      - name: Generate SST types
+        run: bunx sst install
+
       - name: Typecheck
         run: bun run typecheck
 
