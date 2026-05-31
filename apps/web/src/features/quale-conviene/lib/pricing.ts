@@ -109,9 +109,9 @@ export interface CategoryDefinition {
   /** Comparison context (math axis). */
   context: ContextId;
   /** Override the context default (always meaningful for `unit`). */
-  baseLabel?: string;
+  baseLabel?: string | undefined;
   /** Override the context default plural. */
-  baseLabelPlural?: string;
+  baseLabelPlural?: string | undefined;
   /** Hierarchy of wrapper levels; the last one wraps the base unit. */
   levels: UnitLevel[];
   /**
@@ -145,7 +145,7 @@ export function getCategoryUnits(c: CategoryDefinition): MeasureUnit[] {
 // =====================================================================
 
 export interface ProductEntry {
-  name?: string;
+  name?: string | undefined;
   price: number;
   counts: Record<string, number>;
   /** Quantity expressed in the chosen `MeasureUnit`. */

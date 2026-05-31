@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { CATEGORIES } from '../data/categories.ts';
 import { SITE_NAME } from '../lib/seo.ts';
 
-const STATS: { to: number; suffix?: string; label: string }[] = [
+const STATS: { to: number; suffix?: string | undefined; label: string }[] = [
   { to: CATEGORIES.length, label: 'categorie' },
   { to: 4, label: 'contesti di calcolo' },
   { to: 100, suffix: '%', label: 'gratis · senza login' },
@@ -42,7 +42,7 @@ function useCountUp(target: number, duration: number) {
   return value;
 }
 
-function Stat({ to, suffix, label }: { to: number; suffix?: string; label: string }) {
+function Stat({ to, suffix, label }: { to: number; suffix?: string | undefined; label: string }) {
   const n = useCountUp(to, COUNT_UP_DURATION);
   return (
     <li className="flex items-baseline gap-1.5">
@@ -79,9 +79,6 @@ export default function HeroBanner() {
         className="absolute right-1/3 top-1/4 h-56 w-56 rounded-full bg-emerald-300/40 blur-2xl dark:bg-emerald-400/40"
       />
 
-      {/* Saas grid overlay — masked to centre */}
-      <div aria-hidden="true" className="hero-grid-overlay absolute inset-0" />
-
       {/* Subtle darken so white type stays legible on every blend */}
       <div aria-hidden="true" className="absolute inset-0 bg-black/10 dark:bg-black/25" />
 
@@ -95,7 +92,7 @@ export default function HeroBanner() {
           Confronta. Calcola. Risparmia.
         </p>
 
-        <h1 className=" text-4xl sm:text-5xl font-semibold tracking-tight leading-[1.05] drop-shadow-sm">
+        <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight leading-[1.05] drop-shadow-sm">
           Scopri quale prodotto
           <br />
           conviene davvero

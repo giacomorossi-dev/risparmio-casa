@@ -41,7 +41,16 @@ const initialEntries = (category: CategoryDefinition): ProductEntry[] => {
 
 export default function Comparator({ category, storageKey, shareBuilder, onEntriesChange }: Props) {
   const entriesStorageKey = storageKey ?? `${STORAGE_PREFIX}${category.slug}`;
-  const [entries, setEntries] = useState<ProductEntry[]>(() => initialEntries(category));
+  // Stable per-row keys: EntryForm holds local UI state (collapsed), so the key
+  // must follow the row through middle removals — not be its array index.
+  const keyCounter = useRef(0);
+  const rowKeys = useRef<number[]>([]);
+  const freshKeys = (n: number) => Array.from({ length: n }, () => keyCounter.current++);
+  const [entries, setEntries] = useState<ProductEntry[]>(() => {
+    const init = initialEntries(category);
+    rowKeys.current = freshKeys(init.length);
+    return init;
+  });
   // Marks the moment we've finished reading localStorage so we don't persist
   // the SSR-initialized sample values on top of the user's saved data.
   const [hydrated, setHydrated] = useState(false);
@@ -63,6 +72,7 @@ export default function Comparator({ category, storageKey, shareBuilder, onEntri
     if (shared) {
       const decoded = decodeEntries(shared);
       if (decoded && decoded.length > 0) {
+        rowKeys.current = decoded.map(() => keyCounter.current++);
         setEntries(decoded);
         setFromShareLink(true);
         params.delete('d');
@@ -77,13 +87,16 @@ export default function Comparator({ category, storageKey, shareBuilder, onEntri
       const stored = window.localStorage.getItem(entriesStorageKey);
       if (stored) {
         const parsed = JSON.parse(stored) as ProductEntry[];
-        if (Array.isArray(parsed)) setEntries(parsed);
+        if (Array.isArray(parsed)) {
+          rowKeys.current = parsed.map(() => keyCounter.current++);
+          setEntries(parsed);
+        }
       }
     } catch {
       /* corrupt JSON or unavailable — ignore */
     }
     setHydrated(true);
-  }, [category.slug, entriesStorageKey]);
+  }, [category.slug, entriesStorageKey, storageKey]);
 
   // Persist after hydration only (otherwise we'd overwrite saved data with
   // the SSR-initialised sample entries on every page load).
@@ -104,19 +117,29 @@ export default function Comparator({ category, storageKey, shareBuilder, onEntri
   };
 
   const removeAt = (i: number) => {
+    rowKeys.current = rowKeys.current.filter((_, idx) => idx !== i);
     setEntries((prev) => prev.filter((_, idx) => idx !== i));
   };
 
   const addEntry = () => {
+    rowKeys.current = [...rowKeys.current, keyCounter.current++];
     setEntries((prev) => [...prev, buildEmptyEntry(category)]);
   };
 
   const appendEntries = (extra: ProductEntry[]) => {
+    rowKeys.current = [...rowKeys.current, ...freshKeys(extra.length)];
     setEntries((prev) => [...prev, ...extra]);
   };
 
-  const reset = () => setEntries(initialEntries(category));
-  const clear = () => setEntries([]);
+  const reset = () => {
+    const init = initialEntries(category);
+    rowKeys.current = freshKeys(init.length);
+    setEntries(init);
+  };
+  const clear = () => {
+    rowKeys.current = [];
+    setEntries([]);
+  };
 
   const share = async () => {
     if (typeof window === 'undefined') return;
@@ -194,7 +217,7 @@ export default function Comparator({ category, storageKey, shareBuilder, onEntri
           <section aria-label="Prodotti da confrontare" className="space-y-10" data-print="hide">
             {entries.map((entry, i) => (
               <EntryForm
-                key={i}
+                key={rowKeys.current[i] ?? i}
                 index={i}
                 category={category}
                 entry={entry}

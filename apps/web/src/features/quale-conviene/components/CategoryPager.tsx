@@ -18,7 +18,7 @@ export default function CategoryPager({ prev, next }: Props) {
       <Link
         to="/quale-conviene/$category"
         params={{ category: prev.slug }}
-        className="group bg-card flex items-center gap-3 rounded-xl p-4 transition-all hover:-translate-y-px hover:shadow-[0_18px_50px_-20px_rgba(168,85,247,0.4)]"
+        className="group bg-card flex items-center gap-3 rounded-xl p-4 transition-all hover:-translate-y-px hover:shadow-[0_18px_50px_-20px_rgba(13,148,136,0.4)]"
       >
         <ChevronLeft
           className="h-5 w-5 shrink-0 text-muted-foreground transition-transform group-hover:-translate-x-0.5 group-hover:text-foreground"
@@ -33,7 +33,7 @@ export default function CategoryPager({ prev, next }: Props) {
       <Link
         to="/quale-conviene/$category"
         params={{ category: next.slug }}
-        className="group bg-card flex items-center gap-3 rounded-xl p-4 transition-all hover:-translate-y-px hover:shadow-[0_18px_50px_-20px_rgba(168,85,247,0.4)] sm:text-right"
+        className="group bg-card flex items-center gap-3 rounded-xl p-4 transition-all hover:-translate-y-px hover:shadow-[0_18px_50px_-20px_rgba(13,148,136,0.4)] sm:text-right"
       >
         <div className="min-w-0 flex-1 sm:order-1">
           <div className="text-xs uppercase tracking-widest text-muted-foreground">Successiva</div>

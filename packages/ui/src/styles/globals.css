@@ -133,3 +133,21 @@
     @apply bg-background text-foreground antialiased;
   }
 }
+
+/* In stampa nascondi la chrome di sito (header/footer/banner) e azzera gli
+   sfondi, così resta solo il contenuto (es. la tabella risultati del comparatore). */
+@media print {
+  header,
+  footer,
+  #cc-main,
+  [data-print-hide] {
+    /* biome-ignore lint/complexity/noImportantStyles: deve battere le utility Tailwind e gli stili inline del banner cookie in stampa */
+    display: none !important;
+  }
+  body {
+    /* biome-ignore lint/complexity/noImportantStyles: override di stampa sopra .bg-background (specificità utility) */
+    background: #fff !important;
+    /* biome-ignore lint/complexity/noImportantStyles: override di stampa sopra .text-foreground (specificità utility) */
+    color: #000 !important;
+  }
+}

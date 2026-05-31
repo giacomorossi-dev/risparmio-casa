@@ -44,8 +44,14 @@ L'app è un contenitore di sotto-app, ognuna con un **tema** (palette) diverso c
 Portata da un repo standalone in `apps/web/src/features/quale-conviene/` (logica `lib/*` + dati `data/categories.ts`, 100% client-side, persistenza `localStorage` `qc:*`, test golden `lib/*.test.ts`) e route `apps/web/src/routes/quale-conviene/{route,index,$category,confronta}.tsx`.
 
 - I componenti portati importano da un layer compat `features/quale-conviene/components/app/*` che rimappa su `@rc/ui` (il `Button` adatta `asChild`→`render` di Base UI). Le utility "brand" originali (gradient/glass/Poppins) sono de-brandizzate sul tema teal.
-- I dir portati (`features/quale-conviene/**`, `routes/quale-conviene/**`) sono trattati come **vendored** in `biome.json` (regole stilistiche disattivate). I primitivi shadcn in `packages/ui/src/components/ui/**` hanno il linter disattivato.
-- SEO/`head()` per categoria in `lib/seo.ts` (URL con prefisso `/quale-conviene`, `VITE_SITE_URL`).
+- I dir portati (`features/quale-conviene/**`, `routes/quale-conviene/**`) hanno un override in `biome.json` che spegne solo le regole **stilistiche** non adatte al codice portato (`noNonNullAssertion`, `noExcessiveCognitiveComplexity`, `noUselessFragments`, `useSemanticElements`, `useSortedClasses`). Le regole di **correttezza** `useExhaustiveDependencies` e `noArrayIndexKey` restano **attive**: le key per indice sopravvissute sono solo su liste di sola lettura/statiche e annotate con `biome-ignore` motivati; le righe del `Comparator` usano key stabili (`rowKeys` ref) perché `EntryForm` ha stato locale. I primitivi shadcn in `packages/ui/src/components/ui/**` hanno il linter disattivato.
+- `exactOptionalPropertyTypes` è **attivo** a livello repo: i campi opzionali realmente assegnabili a `undefined` sono tipizzati `?: T | undefined`.
+- SEO/`head()` per categoria in `lib/seo.ts` (URL con prefisso `/quale-conviene`, `VITE_SITE_URL`, brand `Risparmio Casa`). OG image: `public/og-image.svg`.
+
+### Decisioni accettate (porting)
+- **i18n**: copy/FAQ/guide delle categorie restano **inline in italiano** in `data/categories.ts` (~2 k righe). Non migrate a `@rc/i18n`: l'app è IT-only e la mole non giustifica la traduzione; le stringhe di shell (header/footer/legali) usano invece `@rc/i18n`.
+- **Test**: la matematica (contratto) è coperta dai test golden `lib/*.test.ts` (35). I componenti/route sono verificati via Playwright (rendering, SEO, contrasto teal) anziché con test unitari su React — scelta consapevole per non duplicare con asserzioni fragili sul DOM.
+- **PWA**: `icon.svg`/`manifest.json` usano un'icona **placeholder**; le icone PNG di brand (192/512, maskable) vanno generate quando il brand è definito.
 
 ## Site-wide
 - **Dark mode**: `ThemeToggle` (chiave `rc:theme`) nell'`Header` + bootstrap pre-hydration in `__root`.

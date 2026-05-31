@@ -1,6 +1,7 @@
 import { type CategoryDefinition, getCategoryBaseLabel } from './pricing';
 
 const SITE_NAME = 'Quale Conviene';
+const SITE_BRAND = 'Risparmio Casa';
 
 /**
  * Public canonical URL of the deployment. Set `VITE_SITE_URL` at build time
@@ -13,7 +14,7 @@ const SITE_URL =
 // La sotto-app vive sotto /quale-conviene nell'aggregatore.
 const QC_BASE = `${SITE_URL}/quale-conviene`;
 
-const OG_IMAGE_URL = `${SITE_URL}/og-image.png`;
+const OG_IMAGE_URL = `${SITE_URL}/og-image.svg`;
 const OG_IMAGE_META = [
   { property: 'og:image', content: OG_IMAGE_URL },
   { property: 'og:image:width', content: '1200' },
@@ -24,7 +25,7 @@ const OG_IMAGE_META = [
 
 export function buildCategoryMeta(category: CategoryDefinition) {
   // SEO-tuned title: long-tail + question framing performs better in SERP.
-  const title = `${category.name} al miglior prezzo · €/${getCategoryBaseLabel(category)} · ${SITE_NAME}`;
+  const title = `${category.name} al miglior prezzo · €/${getCategoryBaseLabel(category)} · ${SITE_NAME} · ${SITE_BRAND}`;
   const description = category.description;
   const url = `${QC_BASE}/${category.slug}`;
   return [
@@ -34,7 +35,7 @@ export function buildCategoryMeta(category: CategoryDefinition) {
     { property: 'og:title', content: title },
     { property: 'og:description', content: description },
     { property: 'og:url', content: url },
-    { property: 'og:site_name', content: SITE_NAME },
+    { property: 'og:site_name', content: SITE_BRAND },
     { property: 'og:locale', content: 'it_IT' },
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:title', content: title },
@@ -105,7 +106,7 @@ export function buildCategoryJsonLd(category: CategoryDefinition) {
 }
 
 export function buildHomeMeta() {
-  const title = `${SITE_NAME} — Confronta prezzi e formati di prodotti`;
+  const title = `${SITE_NAME} · ${SITE_BRAND} — Confronta prezzi e formati`;
   const description =
     "Utility gratuite per scoprire quale prodotto conviene di più: confronta carta igienica, acqua, pasta e altre categorie normalizzando il prezzo all'unità.";
   return [
@@ -115,7 +116,7 @@ export function buildHomeMeta() {
     { property: 'og:title', content: title },
     { property: 'og:description', content: description },
     { property: 'og:url', content: QC_BASE },
-    { property: 'og:site_name', content: SITE_NAME },
+    { property: 'og:site_name', content: SITE_BRAND },
     { property: 'og:locale', content: 'it_IT' },
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:title', content: title },

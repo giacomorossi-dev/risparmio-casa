@@ -6,7 +6,7 @@ import { Card, CardDescription, CardHeader, CardTitle } from './app/card.tsx';
 interface Props {
   category: CategoryDefinition;
   /** Surfaced when a search query matched via this keyword (synonym hint). */
-  matchedKeyword?: string;
+  matchedKeyword?: string | undefined;
 }
 
 export default function CategoryCard({ category, matchedKeyword }: Props) {
@@ -16,7 +16,7 @@ export default function CategoryCard({ category, matchedKeyword }: Props) {
       params={{ category: category.slug }}
       className="block group"
     >
-      <Card className="relative h-full overflow-hidden transition-shadow duration-200 group-hover:shadow-[0_18px_50px_-18px_rgba(168,85,247,0.55)]">
+      <Card className="relative h-full overflow-hidden transition-shadow duration-200 group-hover:shadow-[0_18px_50px_-18px_rgba(13,148,136,0.55)]">
         {/* Gradient overlay — fades via opacity so the transition is smooth in
             both directions (background-image alone isn't animatable). */}
         <div

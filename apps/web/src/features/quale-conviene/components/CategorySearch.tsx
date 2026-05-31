@@ -45,7 +45,7 @@ const normalize = (s: string): string => s.toLowerCase().normalize('NFD').replac
 export interface CategoryMatch {
   matched: boolean;
   /** Set when the match wouldn't have been found via name/description alone. */
-  viaKeyword?: string;
+  viaKeyword?: string | undefined;
 }
 
 /**

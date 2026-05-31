@@ -39,22 +39,22 @@ export default function RecentComparisons({ limit = 4 }: Props) {
         </h2>
       </div>
       <div className="flex gap-3 overflow-x-auto pb-1 -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4">
-        {recent.map((entry, i) =>
+        {recent.map((entry) =>
           entry.kind === 'category' ? (
             <Link
               key={`cat-${entry.slug}`}
               to="/quale-conviene/$category"
               params={{ category: entry.slug }}
-              className="group bg-card flex min-w-[200px] items-center justify-between gap-3 rounded-lg px-4 py-3 text-sm transition-all hover:-translate-y-px hover:shadow-[0_12px_30px_-12px_rgba(168,85,247,0.4)]"
+              className="group bg-card flex min-w-[200px] items-center justify-between gap-3 rounded-lg px-4 py-3 text-sm transition-all hover:-translate-y-px hover:shadow-[0_12px_30px_-12px_rgba(13,148,136,0.4)]"
             >
               <span className="truncate font-medium group-hover:text-primary">{entry.name}</span>
               <ArrowRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-foreground" />
             </Link>
           ) : (
             <Link
-              key={`custom-${i}-${entry.name}`}
+              key={`custom-${entry.name}`}
               to="/quale-conviene/confronta"
-              className="group bg-card flex min-w-[200px] items-center justify-between gap-3 rounded-lg px-4 py-3 text-sm transition-all hover:-translate-y-px hover:shadow-[0_12px_30px_-12px_rgba(168,85,247,0.4)]"
+              className="group bg-card flex min-w-[200px] items-center justify-between gap-3 rounded-lg px-4 py-3 text-sm transition-all hover:-translate-y-px hover:shadow-[0_12px_30px_-12px_rgba(13,148,136,0.4)]"
             >
               <span className="flex items-center gap-2 truncate font-medium group-hover:text-primary">
                 <Wand2

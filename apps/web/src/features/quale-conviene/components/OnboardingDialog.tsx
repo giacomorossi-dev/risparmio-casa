@@ -270,6 +270,7 @@ function StepFooter({
       <div className="flex items-center gap-1.5" aria-hidden="true">
         {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
           <span
+            // biome-ignore lint/suspicious/noArrayIndexKey: indicatori di passo a lunghezza fissa; l'indice È l'identità stabile
             key={i}
             className={
               i === step

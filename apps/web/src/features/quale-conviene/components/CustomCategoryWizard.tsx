@@ -122,9 +122,9 @@ export default function CustomCategoryWizard({ initialName = '', onComplete }: P
                 onClick={() => setContext(opt.id)}
                 className={cn(
                   'group text-left rounded-lg border bg-card p-4 transition-all cursor-pointer',
-                  'hover:-translate-y-px hover:shadow-[0_12px_30px_-12px_rgba(168,85,247,0.4)]',
+                  'hover:-translate-y-px hover:shadow-[0_12px_30px_-12px_rgba(13,148,136,0.4)]',
                   active &&
-                    'border-primary ring-2 ring-primary/30 shadow-[0_12px_30px_-12px_rgba(168,85,247,0.5)]',
+                    'border-primary ring-2 ring-primary/30 shadow-[0_12px_30px_-12px_rgba(13,148,136,0.5)]',
                 )}
                 aria-pressed={active}
               >

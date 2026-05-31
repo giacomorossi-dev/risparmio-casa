@@ -65,6 +65,7 @@ function PlannerCard({
         <>
           <ul className="space-y-1 text-sm" aria-live="polite">
             {valid.map((r, i) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: lista di sola lettura derivata posizionalmente dai risultati; nessuno stato locale
               <li key={i} className="flex items-baseline justify-between gap-3">
                 <span className="truncate">{r.entry.name?.trim() || `Prodotto ${i + 1}`}</span>
                 <span className="font-medium tabular-nums">{format(parsed, r)}</span>

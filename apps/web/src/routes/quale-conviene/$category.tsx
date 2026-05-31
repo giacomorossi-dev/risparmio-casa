@@ -25,7 +25,7 @@ export const Route = createFileRoute('/quale-conviene/$category')({
     if (!loaderData) return {};
     return {
       meta: buildCategoryMeta(loaderData),
-      links: buildCanonicalLinks(`/${loaderData.slug}`),
+      links: buildCanonicalLinks(`/quale-conviene/${loaderData.slug}`),
       scripts: buildCategoryJsonLd(loaderData).map((item) => ({
         type: 'application/ld+json',
         children: JSON.stringify(item),
@@ -76,17 +76,17 @@ function CategoryPage() {
           <div aria-hidden="true" className="bg-primary mt-2 mb-4 h-[2px] w-full" />
           {category.longDescription && (
             <div className="space-y-4 text-muted-foreground leading-relaxed">
-              {category.longDescription.split(/\n\s*\n/).map((p, i) => (
-                <p key={i}>{p}</p>
+              {category.longDescription.split(/\n\s*\n/).map((p) => (
+                <p key={p.slice(0, 40)}>{p}</p>
               ))}
             </div>
           )}
-          {category.sections?.map((s, i) => (
-            <div key={i} className="mt-6 space-y-3">
+          {category.sections?.map((s) => (
+            <div key={s.heading} className="mt-6 space-y-3">
               <h3 className="text-lg font-semibold text-foreground">{s.heading}</h3>
               <div className="space-y-3 text-muted-foreground leading-relaxed">
-                {s.body.split(/\n\s*\n/).map((p, j) => (
-                  <p key={j}>{p}</p>
+                {s.body.split(/\n\s*\n/).map((p) => (
+                  <p key={p.slice(0, 40)}>{p}</p>
                 ))}
               </div>
             </div>
@@ -104,8 +104,8 @@ function CategoryPage() {
           </h2>
           <div aria-hidden="true" className="bg-primary mt-2 mb-4 h-[2px] w-full" />
           <dl className="space-y-4">
-            {category.faq.map((qa, i) => (
-              <div key={i} className="rounded-lg border bg-card p-4">
+            {category.faq.map((qa) => (
+              <div key={qa.q} className="rounded-lg border bg-card p-4">
                 <dt className="font-semibold mb-2">{qa.q}</dt>
                 <dd className="text-muted-foreground leading-relaxed">{qa.a}</dd>
               </div>

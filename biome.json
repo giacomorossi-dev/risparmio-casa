@@ -134,8 +134,6 @@
         "rules": {
           "style": { "noNonNullAssertion": "off" },
           "complexity": { "noExcessiveCognitiveComplexity": "off", "noUselessFragments": "off" },
-          "correctness": { "useExhaustiveDependencies": "off" },
-          "suspicious": { "noArrayIndexKey": "off" },
           "a11y": { "useSemanticElements": "off" },
           "nursery": { "useSortedClasses": "off" }
         }

@@ -101,6 +101,7 @@ export default function ResultsTable({ category, results }: Props) {
         <TableBody>
           {results.map((r, i) => (
             <TableRow
+              // biome-ignore lint/suspicious/noArrayIndexKey: riga di sola lettura derivata posizionalmente da `entries`; nessuno stato locale, ri-renderizzata in blocco
               key={i}
               className={cn(
                 r.invalid && 'opacity-50',

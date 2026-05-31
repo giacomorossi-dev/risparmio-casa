@@ -9,11 +9,12 @@ import {
 } from '@rc/ui/components/card';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
-
 import { APPS } from '../apps.ts';
 import { MascotSlot } from '../components/MascotSlot.tsx';
+import { canonical } from '../lib/site.ts';
 
 export const Route = createFileRoute('/')({
+  head: () => ({ links: canonical('/') }),
   component: HomePage,
 });
 

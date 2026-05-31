@@ -10,27 +10,29 @@
 
 /* site = brand neutro: nessuna regola → la classe .theme-site eredita :root / .dark. */
 
-/* ---- quale-conviene: teal / menta ---- */
+/* ---- quale-conviene: teal / menta ----
+ * Primary scuro+saturo con foreground bianco: contrasto AA sia per i pulsanti
+ * sia per testo/icone bianchi su bg-primary (hero, SectionIcon). */
 .theme-quale-conviene {
   --radius: 0.9rem;
   --background: oklch(0.985 0.012 178);
   --card: oklch(0.996 0.008 178);
   --popover: oklch(0.996 0.008 178);
-  --primary: oklch(0.72 0.1 178);
-  --primary-foreground: oklch(0.205 0.02 178);
-  --accent: oklch(0.95 0.04 178);
-  --accent-foreground: oklch(0.3 0.05 178);
-  --ring: oklch(0.72 0.1 178);
+  --primary: oklch(0.52 0.1 192);
+  --primary-foreground: oklch(0.985 0.01 192);
+  --accent: oklch(0.94 0.045 192);
+  --accent-foreground: oklch(0.34 0.07 192);
+  --ring: oklch(0.52 0.1 192);
 }
 .dark .theme-quale-conviene {
-  --background: oklch(0.19 0.02 178);
-  --card: oklch(0.24 0.025 178);
-  --popover: oklch(0.24 0.025 178);
-  --primary: oklch(0.78 0.1 178);
-  --primary-foreground: oklch(0.18 0.02 178);
-  --accent: oklch(0.3 0.04 178);
-  --accent-foreground: oklch(0.92 0.03 178);
-  --ring: oklch(0.62 0.09 178);
+  --background: oklch(0.19 0.02 192);
+  --card: oklch(0.24 0.025 192);
+  --popover: oklch(0.24 0.025 192);
+  --primary: oklch(0.7 0.12 192);
+  --primary-foreground: oklch(0.16 0.02 192);
+  --accent: oklch(0.3 0.05 192);
+  --accent-foreground: oklch(0.92 0.03 192);
+  --ring: oklch(0.62 0.11 192);
 }
 
 /* ---- scorte: ambra / pesca ---- */
