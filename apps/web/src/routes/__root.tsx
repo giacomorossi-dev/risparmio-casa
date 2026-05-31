@@ -1,4 +1,3 @@
-import { ClerkProvider } from '@clerk/tanstack-react-start';
 import { createI18n, I18nextProvider } from '@rc/i18n';
 import {
   createRootRoute,
@@ -14,10 +13,15 @@ import { CookieConsent } from '../components/CookieConsent.tsx';
 import { Footer } from '../components/Footer.tsx';
 import { Header } from '../components/Header.tsx';
 import { ServiceWorkerRegister } from '../components/ServiceWorkerRegister.tsx';
-import { clerkEnabled } from '../lib/clerk.ts';
+import { fetchAuthState } from '../lib/clerk-server.ts';
 import appCss from '../styles.css?url';
 
 export const Route = createRootRoute({
+  // Stato "loggato?" risolto una volta sul server (no clerk-js sulle pagine
+  // pubbliche). `staleTime: Infinity`: l'auth è stabile nella sessione e i
+  // cambi (login/logout) passano da navigazioni complete che ri-inizializzano.
+  loader: () => fetchAuthState(),
+  staleTime: Number.POSITIVE_INFINITY,
   head: () => ({
     meta: [
       { charSet: 'utf-8' },
@@ -44,12 +48,15 @@ const i18n = createI18n('it');
 function RootComponent() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const theme = themeForPath(pathname);
+  const { isSignedIn } = Route.useLoaderData();
 
-  const tree = (
+  // Niente <ClerkProvider> qui: le pagine pubbliche non caricano clerk-js.
+  // L'auth interattiva vive in /sign-in e /app (che montano ClerkBoundary).
+  return (
     <I18nextProvider i18n={i18n}>
       <RootDocument>
         <div className={`theme-${theme} flex min-h-screen flex-col bg-background text-foreground`}>
-          <Header />
+          <Header isSignedIn={isSignedIn} />
           <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-10">
             <Outlet />
           </main>
@@ -58,11 +65,6 @@ function RootComponent() {
       </RootDocument>
     </I18nextProvider>
   );
-
-  // Senza publishable key (deploy senza auth, e2e/CI) si rende senza ClerkProvider:
-  // niente clerk-js, niente crash. Con `clerkEnabled` costante a build-time, il
-  // ramo e l'import di ClerkProvider sono dead-code-eliminati nei build key-less.
-  return clerkEnabled ? <ClerkProvider>{tree}</ClerkProvider> : tree;
 }
 
 // Applica la classe .dark prima dell'hydration leggendo rc:theme, così non c'è
