@@ -7,7 +7,7 @@
     "dev": "tsx watch src/dev.ts",
     "build": "tsc -p tsconfig.json && bun run scripts/emit-openapi.ts",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
     "@hono/node-server": "^2.0.0",
