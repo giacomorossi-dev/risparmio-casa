@@ -1,8 +1,8 @@
-import { Show, SignInButton, UserButton } from '@clerk/tanstack-react-start';
-import { Button } from '@rc/ui/components/button';
 import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 
+import { clerkEnabled } from '../lib/clerk.ts';
+import { AuthControls } from './AuthControls.tsx';
 import { ThemeToggle } from './ThemeToggle.tsx';
 
 export const Header = () => {
@@ -16,17 +16,7 @@ export const Header = () => {
         </Link>
         <nav className="flex items-center gap-3">
           <ThemeToggle />
-          <Show when="signed-out">
-            <SignInButton mode="modal">
-              <Button size="sm">{t('nav.signIn')}</Button>
-            </SignInButton>
-          </Show>
-          <Show when="signed-in">
-            <Link to="/app" className="font-medium text-sm hover:underline">
-              {t('nav.dashboard')}
-            </Link>
-            <UserButton />
-          </Show>
+          {clerkEnabled && <AuthControls />}
         </nav>
       </div>
     </header>
