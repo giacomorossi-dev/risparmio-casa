@@ -44,3 +44,44 @@ jobs:
 
       - name: Build
         run: bun run build
+
+  e2e:
+    name: e2e (quale-conviene)
+    runs-on: ubuntu-latest
+    # Le route /quale-conviene sono pubbliche ma lo SSR di Clerk pretende chiavi
+    # valide per renderizzare. Imposta i secret CLERK_SECRET_KEY e
+    # CLERK_PUBLISHABLE_KEY (istanza Clerk di sviluppo) per abilitare gli step;
+    # se assenti, l'e2e viene saltato senza far fallire la CI.
+    env:
+      CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+      CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
+      VITE_CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.11
+
+      - name: Install
+        run: bun install --frozen-lockfile
+
+      - name: Notice se mancano i secret Clerk
+        if: ${{ env.CLERK_SECRET_KEY == '' }}
+        run: echo "::notice::CLERK_SECRET_KEY non configurato — e2e saltati. Aggiungi i secret del repository per abilitarli."
+
+      - name: Install Playwright (chromium)
+        if: ${{ env.CLERK_SECRET_KEY != '' }}
+        run: cd apps/web && bunx playwright install --with-deps chromium
+
+      - name: E2E
+        if: ${{ env.CLERK_SECRET_KEY != '' }}
+        run: bun run test:e2e
+
+      - name: Upload report
+        if: ${{ failure() && env.CLERK_SECRET_KEY != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: apps/web/playwright-report
+          retention-days: 7

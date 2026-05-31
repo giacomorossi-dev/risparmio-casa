@@ -18,6 +18,7 @@
     "format": "biome format --write .",
     "typecheck": "turbo run typecheck && tsc --noEmit -p tsconfig.infra.json",
     "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
     "sst:dev": "sst dev",
     "sst:deploy": "sst deploy",
     "sst:remove": "sst remove",

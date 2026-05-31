@@ -50,7 +50,7 @@ Portata da un repo standalone in `apps/web/src/features/quale-conviene/` (logica
 
 ### Decisioni accettate (porting)
 - **i18n**: copy/FAQ/guide delle categorie restano **inline in italiano** in `data/categories.ts` (~2 k righe). Non migrate a `@rc/i18n`: l'app è IT-only e la mole non giustifica la traduzione; le stringhe di shell (header/footer/legali) usano invece `@rc/i18n`.
-- **Test**: la matematica (contratto) è coperta dai test golden `lib/*.test.ts` (35). I componenti/route sono verificati via Playwright (rendering, SEO, contrasto teal) anziché con test unitari su React — scelta consapevole per non duplicare con asserzioni fragili sul DOM.
+- **Test**: la matematica (contratto) è coperta dai test golden `lib/*.test.ts` (35). I percorsi utente (home/ricerca, categoria, share `?d=`, wizard, SEO/JSON-LD) sono coperti da una suite **e2e Playwright** in `apps/web/e2e/` (`playwright.config.ts`, script `test:e2e` → task turbo, job `e2e` in `ci.yml`) che gira contro il **build SSR di produzione**. Lo SSR di Clerk pretende chiavi valide per renderizzare: la config legge `.env` in locale; in CI servono i secret `CLERK_SECRET_KEY`/`CLERK_PUBLISHABLE_KEY` (istanza dev), altrimenti il job si salta senza fallire.
 - **PWA**: `icon.svg`/`manifest.json` usano un'icona **placeholder**; le icone PNG di brand (192/512, maskable) vanno generate quando il brand è definito.
 
 ## Site-wide
