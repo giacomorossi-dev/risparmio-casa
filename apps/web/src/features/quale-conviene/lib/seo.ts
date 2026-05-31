@@ -14,9 +14,11 @@ const SITE_URL =
 // La sotto-app vive sotto /quale-conviene nell'aggregatore.
 const QC_BASE = `${SITE_URL}/quale-conviene`;
 
-const OG_IMAGE_URL = `${SITE_URL}/og-image.svg`;
+// Raster PNG (non SVG): Facebook/X/LinkedIn/WhatsApp non renderizzano SVG come og:image.
+const OG_IMAGE_URL = `${SITE_URL}/og-image.png`;
 const OG_IMAGE_META = [
   { property: 'og:image', content: OG_IMAGE_URL },
+  { property: 'og:image:type', content: 'image/png' },
   { property: 'og:image:width', content: '1200' },
   { property: 'og:image:height', content: '630' },
   { property: 'og:image:alt', content: `${SITE_NAME} — confronta prezzi e formati` },
@@ -90,19 +92,25 @@ export function buildCategoryJsonLd(category: CategoryDefinition) {
       },
     ],
   };
-  const items: object[] = [article, breadcrumb];
-  if (category.faq && category.faq.length > 0) {
-    items.push({
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: category.faq.map((qa) => ({
-        '@type': 'Question',
-        name: qa.q,
-        acceptedAnswer: { '@type': 'Answer', text: qa.a },
-      })),
-    });
-  }
-  return items;
+  return [article, breadcrumb];
+}
+
+/**
+ * FAQPage JSON-LD per le rich results. Separato da `buildCategoryJsonLd` perché
+ * dipende dal copy pesante (`category-content.ts`): viene emesso dal componente
+ * della route $category (chunk lazy), non dall'`head` eager. `null` se non c'è FAQ.
+ */
+export function buildFaqJsonLd(faq?: Array<{ q: string; a: string }>) {
+  if (!faq || faq.length === 0) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((qa) => ({
+      '@type': 'Question',
+      name: qa.q,
+      acceptedAnswer: { '@type': 'Answer', text: qa.a },
+    })),
+  };
 }
 
 export function buildHomeMeta() {

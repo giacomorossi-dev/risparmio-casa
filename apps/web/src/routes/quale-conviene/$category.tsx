@@ -9,10 +9,12 @@ import {
   getCategoryBySlug,
   getRelatedCategories,
 } from '../../features/quale-conviene/data/categories.ts';
+import { getCategoryContent } from '../../features/quale-conviene/data/category-content.ts';
 import {
   buildCanonicalLinks,
   buildCategoryJsonLd,
   buildCategoryMeta,
+  buildFaqJsonLd,
 } from '../../features/quale-conviene/lib/seo.ts';
 
 export const Route = createFileRoute('/quale-conviene/$category')({
@@ -21,6 +23,9 @@ export const Route = createFileRoute('/quale-conviene/$category')({
     if (!category) throw notFound();
     return category;
   },
+  // `head` resta eager (chunk principale): solo Article + BreadcrumbList, niente
+  // dati pesanti. Il FAQPage JSON-LD è emesso dal componente (chunk lazy) perché
+  // dipende dal copy in `category-content.ts`, che non deve finire nella landing.
   head: ({ loaderData }) => {
     if (!loaderData) return {};
     return {
@@ -39,6 +44,8 @@ const route = getRouteApi('/quale-conviene/$category');
 
 function CategoryPage() {
   const category = route.useLoaderData();
+  const content = getCategoryContent(category.slug);
+  const faqJsonLd = buildFaqJsonLd(content.faq);
   const related = getRelatedCategories(category);
   const { prev, next } = getAdjacentCategories(category);
 
@@ -60,28 +67,28 @@ function CategoryPage() {
           <span className="text-primary">{category.name}</span>
         </h1>
         <p className="text-lg text-muted-foreground">{category.description}</p>
-        {category.intro && <p className="text-base text-muted-foreground">{category.intro}</p>}
+        {content.intro && <p className="text-base text-muted-foreground">{content.intro}</p>}
       </article>
 
       <Comparator category={category} />
 
-      {(category.longDescription || (category.sections && category.sections.length > 0)) && (
+      {(content.longDescription || (content.sections && content.sections.length > 0)) && (
         <section>
           <h2 className="flex items-center gap-3 text-xl font-semibold">
             <SectionIcon>
               <BookOpen />
             </SectionIcon>
-            {category.guideTitle ?? 'Guida ai prezzi'}
+            {content.guideTitle ?? 'Guida ai prezzi'}
           </h2>
           <div aria-hidden="true" className="bg-primary mt-2 mb-4 h-[2px] w-full" />
-          {category.longDescription && (
+          {content.longDescription && (
             <div className="space-y-4 text-muted-foreground leading-relaxed">
-              {category.longDescription.split(/\n\s*\n/).map((p) => (
+              {content.longDescription.split(/\n\s*\n/).map((p) => (
                 <p key={p.slice(0, 40)}>{p}</p>
               ))}
             </div>
           )}
-          {category.sections?.map((s) => (
+          {content.sections?.map((s) => (
             <div key={s.heading} className="mt-6 space-y-3">
               <h3 className="text-lg font-semibold text-foreground">{s.heading}</h3>
               <div className="space-y-3 text-muted-foreground leading-relaxed">
@@ -94,7 +101,15 @@ function CategoryPage() {
         </section>
       )}
 
-      {category.faq && category.faq.length > 0 && (
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD serializzato da noi (nessun input utente)
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
+
+      {content.faq && content.faq.length > 0 && (
         <section>
           <h2 className="flex items-center gap-3 text-xl font-semibold">
             <SectionIcon>
@@ -104,7 +119,7 @@ function CategoryPage() {
           </h2>
           <div aria-hidden="true" className="bg-primary mt-2 mb-4 h-[2px] w-full" />
           <dl className="space-y-4">
-            {category.faq.map((qa) => (
+            {content.faq.map((qa) => (
               <div key={qa.q} className="rounded-lg border bg-card p-4">
                 <dt className="font-semibold mb-2">{qa.q}</dt>
                 <dd className="text-muted-foreground leading-relaxed">{qa.a}</dd>

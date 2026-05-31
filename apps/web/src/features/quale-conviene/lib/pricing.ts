@@ -96,16 +96,6 @@ export interface CategoryDefinition {
   name: string;
   /** Short description used for meta tags and intro copy. */
   description: string;
-  /** Optional longer copy rendered above the comparator. */
-  intro?: string;
-  /** SEO long-tail copy rendered below the comparator. Plain text;
-   *  empty lines split paragraphs. */
-  longDescription?: string;
-  /** Section title shown above `sections`. Defaults to "Guida ai prezzi". */
-  guideTitle?: string;
-  /** H3 subsections under the long-form guide. Each `body` supports
-   *  paragraph splits via empty lines. */
-  sections?: Array<{ heading: string; body: string }>;
   /** Comparison context (math axis). */
   context: ContextId;
   /** Override the context default (always meaningful for `unit`). */
@@ -120,8 +110,6 @@ export interface CategoryDefinition {
    * search for (e.g. "panna" should surface `latte-uht`).
    */
   keywords?: string[];
-  /** 3-5 Q&A surfaced as FAQPage schema and rendered at the bottom of the page. */
-  faq?: Array<{ q: string; a: string }>;
   /** Slugs of related categories used for internal linking + SEO. */
   related?: string[];
   /** Sample entries pre-loaded in the comparator on first render. */
