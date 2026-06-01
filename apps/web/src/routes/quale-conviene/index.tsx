@@ -35,17 +35,9 @@ function Home() {
     <div className="container mx-auto max-w-5xl px-4 py-8 sm:py-12 space-y-12">
       <HeroBanner />
 
-      {/* `content-visibility: auto` lets the browser skip painting these
-          below-the-fold sections during the initial render. `contain-intrinsic-size`
-          reserves a placeholder height to avoid scroll jump when they come into view. */}
-      <div style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 200px' }}>
-        <RecentComparisons />
-      </div>
+      <RecentComparisons />
 
-      <section
-        className="space-y-4"
-        style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 1400px' }}
-      >
+      <section className="space-y-4">
         <div className="flex flex-wrap items-center gap-3">
           <h2 className="flex items-center gap-3 text-xl font-semibold">
             <SectionIcon>
@@ -93,7 +85,6 @@ function Home() {
       <section
         aria-labelledby="custom-cta-heading"
         className="relative isolate overflow-hidden rounded-2xl border bg-card p-6 sm:p-8"
-        style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 220px' }}
       >
         <div
           aria-hidden="true"

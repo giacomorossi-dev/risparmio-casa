@@ -1,6 +1,12 @@
+import { HelpCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
+
+import { Hero } from '../../../components/Hero.tsx';
 import { CATEGORIES } from '../data/categories.ts';
 import { SITE_NAME } from '../lib/seo.ts';
+
+// Evento ascoltato da OnboardingDialog per aprire il tour guidato.
+const OPEN_EVENT = 'qc:open-onboarding';
 
 const STATS: { to: number; suffix?: string | undefined; label: string }[] = [
   { to: CATEGORIES.length, label: 'categorie' },
@@ -14,9 +20,6 @@ const COUNT_UP_DURATION = 1400;
 const easeOutCubic = (t: number) => 1 - (1 - t) ** 3;
 
 function useCountUp(target: number, duration: number) {
-  // Initial state is 0 on both server and client so hydration matches; the
-  // animation starts in the effect below right after mount. No flash from
-  // "final → 0 → animate", because the user only ever sees post-mount frames.
   const [value, setValue] = useState(0);
 
   useEffect(() => {
@@ -46,7 +49,7 @@ function Stat({ to, suffix, label }: { to: number; suffix?: string | undefined; 
   const n = useCountUp(to, COUNT_UP_DURATION);
   return (
     <li className="flex items-baseline gap-1.5">
-      <span className="text-lg font-semibold tabular-nums">
+      <span className="font-semibold text-lg tabular-nums">
         {n}
         {suffix}
       </span>
@@ -55,60 +58,48 @@ function Stat({ to, suffix, label }: { to: number; suffix?: string | undefined; 
   );
 }
 
+const openTour = () => {
+  if (typeof window !== 'undefined') window.dispatchEvent(new Event(OPEN_EVENT));
+};
+
 export default function HeroBanner() {
   return (
-    <section
-      aria-label={`${SITE_NAME} — banner`}
-      className="relative isolate flex min-h-[340px] sm:min-h-[380px] items-center justify-center overflow-hidden rounded-2xl px-6 py-12 sm:px-12 sm:py-14"
-    >
-      {/* Base gradient — adapts to theme via brand variables */}
-      <div className="bg-primary absolute inset-0" aria-hidden="true" />
-
-      {/* Drifting colour blobs — blur-2xl (40px) is visually similar to 3xl
-			    but ~30% cheaper for the compositor on low-end mobile GPUs. */}
-      <div
-        aria-hidden="true"
-        className="absolute -left-20 -top-24 h-80 w-80 rounded-full bg-cyan-300/45 blur-2xl dark:bg-cyan-400/45"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute -bottom-28 -right-12 h-96 w-96 rounded-full bg-teal-400/45 blur-2xl dark:bg-teal-500/50"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute right-1/3 top-1/4 h-56 w-56 rounded-full bg-emerald-300/40 blur-2xl dark:bg-emerald-400/40"
-      />
-
-      {/* Subtle darken so white type stays legible on every blend */}
-      <div aria-hidden="true" className="absolute inset-0 bg-black/10 dark:bg-black/25" />
-
-      {/* Content */}
-      <div className="relative z-10 max-w-3xl space-y-4 text-center text-white">
-        <p className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/15 px-3 py-1 text-xs font-medium backdrop-blur-sm">
+    <Hero
+      ariaLabel={`${SITE_NAME} — banner`}
+      eyebrow={
+        <>
           <span className="relative flex h-1.5 w-1.5">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
             <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-white" />
           </span>
           Confronta. Calcola. Risparmia.
-        </p>
-
-        <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight leading-[1.05] drop-shadow-sm">
+        </>
+      }
+      title={
+        <>
           Scopri quale prodotto
           <br />
           conviene davvero
-        </h1>
+        </>
+      }
+      subtitle="Normalizza il prezzo all'unità — fra formati, marche e confezioni diverse — e leggi il verdetto in un colpo d'occhio."
+    >
+      <ul className="mx-auto flex flex-wrap items-center justify-center gap-x-6 gap-y-2 pt-2 text-sm">
+        {STATS.map((s) => (
+          <Stat key={s.label} to={s.to} suffix={s.suffix} label={s.label} />
+        ))}
+      </ul>
 
-        <p className="mx-auto max-w-xl text-sm sm:text-base text-white/90">
-          Normalizza il prezzo all'unità — fra formati, marche e confezioni diverse — e leggi il
-          verdetto in un colpo d'occhio.
-        </p>
-
-        <ul className="mx-auto flex flex-wrap items-center justify-center gap-x-6 gap-y-2 pt-2 text-sm">
-          {STATS.map((s) => (
-            <Stat key={s.label} to={s.to} suffix={s.suffix} label={s.label} />
-          ))}
-        </ul>
+      <div className="flex justify-center pt-4">
+        <button
+          type="button"
+          onClick={openTour}
+          className="inline-flex items-center gap-2 rounded-lg border border-white/30 bg-white/15 px-4 py-2 font-medium text-sm text-white backdrop-blur-sm transition-colors hover:bg-white/25"
+        >
+          <HelpCircle className="h-4 w-4" />
+          Scopri come funziona
+        </button>
       </div>
-    </section>
+    </Hero>
   );
 }
