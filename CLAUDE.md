@@ -31,7 +31,7 @@ Quando aggiungi un componente shadcn (finisce in `components/ui/`), crea **subit
 
 ## Theming per sotto-app
 
-L'app è un contenitore di sotto-app, ognuna con un **tema** (palette) diverso così l'utente capisce dove si trova. I temi sono classi CSS in `packages/ui/src/styles/themes.css` (`.theme-site`, `.theme-quale-conviene`, `.theme-scorte`, `.theme-utilita`) che **sovrascrivono solo i token superficie** (`--background`, `--card`, `--popover`, `--primary(+fg)`, `--accent(+fg)`, `--ring`, `--radius`); foreground/muted/border/ecc. restano da `:root`/`.dark`.
+L'app è un contenitore di sotto-app, ognuna con un **tema** (accento) diverso così l'utente capisce dove si trova. I temi sono classi CSS in `packages/ui/src/styles/themes.css` (`.theme-site`, `.theme-quale-conviene`, `.theme-scorte`, `.theme-utilita`) che **sovrascrivono solo i token di accento** (`--primary(+fg)`, `--accent(+fg)`, `--ring`, `--radius`). Lo **sfondo è uniforme** tra tutte le app: `--background`/`--card`/`--popover` (come foreground/muted/border/ecc.) restano da `:root`/`.dark` — cambia solo l'accento (pulsanti, hero, icone), non il colore di pagina.
 
 - **Fonte unica**: `apps/web/src/apps.ts` (`APPS` + `themeForPath`). Home, footer e theme-resolver leggono da qui — non duplicare l'elenco delle app altrove.
 - **Applicazione**: `apps/web/src/routes/__root.tsx` legge il pathname (`useRouterState`) e mette `theme-<key>` sul wrapper dello shell. Le custom property si risolvono per **prossimità DOM**, quindi il tema sul `<div>` vince sui token di `:root`; in dark mode valgono le regole `.dark .theme-*`.
