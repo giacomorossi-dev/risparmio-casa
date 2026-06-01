@@ -23,9 +23,7 @@ export function ToolCard({
         aria-label={pinned ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti'}
         aria-pressed={pinned}
         className={`absolute top-3 right-3 z-10 inline-flex size-7 items-center justify-center rounded-md transition-colors ${
-          pinned
-            ? 'text-primary'
-            : 'text-muted-foreground/40 opacity-0 hover:text-muted-foreground focus-visible:opacity-100 group-hover/card:opacity-100'
+          pinned ? 'text-primary' : 'text-muted-foreground/50 hover:text-muted-foreground'
         }`}
       >
         <Pin className={`size-4 ${pinned ? 'fill-primary' : ''}`} />
