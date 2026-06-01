@@ -56,7 +56,7 @@ function HomePage() {
               <Button
                 variant="outline"
                 nativeButton={false}
-                render={<Link to={`/${app.slug}`}>{t('common.comingSoon')} →</Link>}
+                render={<Link to={`/${app.slug}`}>{t('common.open')} →</Link>}
               />
             </CardContent>
           </Card>
