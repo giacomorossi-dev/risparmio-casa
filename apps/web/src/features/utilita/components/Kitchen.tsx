@@ -1,10 +1,12 @@
-import { CakeSlice, ChefHat, Flame, Scale, Users } from 'lucide-react';
+import { CakeSlice, ChefHat, CircleDot, Flame, Scale, Users, Wheat } from 'lucide-react';
 import { useState } from 'react';
 import { INGREDIENT_DENSITY, SERVING_GRAMS } from '../../../lib/calc/data.ts';
 import {
+  bakersPercentage,
   celsiusToGasMark,
   convertYeast,
   ovenConvert,
+  panScaleFactor,
   recipeScaleFactor,
   servingAmount,
   volumeToWeight,
@@ -130,6 +132,68 @@ export function PerPersona() {
       <SelectField label="Alimento" value={food} onChange={setFood} options={FOODS} />
       <NumberField label="Persone" value={people} onChange={setPeople} />
       <Result label="Totale" value={out} muted={out === '—'} />
+    </UtilityCard>
+  );
+}
+
+export function AdattaStampo() {
+  const [from, setFrom] = useState('20');
+  const [to, setTo] = useState('24');
+  const [qty, setQty] = useState('');
+  const [nf2, nt, nq] = [toNum(from), toNum(to), toNum(qty)];
+  let factor = '—';
+  let scaled = '—';
+  try {
+    if (!Number.isNaN(nf2) && !Number.isNaN(nt)) {
+      const f = panScaleFactor({ shape: 'round', diameter: nf2 }, { shape: 'round', diameter: nt });
+      factor = `× ${nf.format(f)}`;
+      if (!Number.isNaN(nq)) scaled = nf.format(nq * f);
+    }
+  } catch {
+    /* diametro 0 → — */
+  }
+  return (
+    <UtilityCard
+      icon={CircleDot}
+      title="Adatta lo stampo"
+      hint="Dosi tra teglie tonde di Ø diverso"
+    >
+      <div className="grid grid-cols-2 gap-2">
+        <NumberField label="Da Ø (cm)" value={from} onChange={setFrom} />
+        <NumberField label="A Ø (cm)" value={to} onChange={setTo} />
+      </div>
+      <NumberField label="Quantità ingrediente (facolt.)" value={qty} onChange={setQty} />
+      <Result label="Fattore" value={factor} muted={factor === '—'} />
+      {scaled !== '—' && <Result label="Quantità adattata" value={scaled} />}
+    </UtilityCard>
+  );
+}
+
+export function Impasto() {
+  const [flour, setFlour] = useState('500');
+  const [hyd, setHyd] = useState('65');
+  const [salt, setSalt] = useState('2');
+  const [yeast, setYeast] = useState('1');
+  const vals = [flour, hyd, salt, yeast].map(toNum);
+  let r: ReturnType<typeof bakersPercentage> | null = null;
+  if (!vals.some(Number.isNaN)) {
+    const [f, h, s, y] = vals as [number, number, number, number];
+    r = bakersPercentage(f, { hydration: h, salt: s, yeast: y });
+  }
+  return (
+    <UtilityCard icon={Wheat} title="Impasto (baker's %)" hint="Percentuali sul peso della farina">
+      <NumberField label="Farina (g)" value={flour} onChange={setFlour} />
+      <div className="grid grid-cols-3 gap-2">
+        <NumberField label="Acqua %" value={hyd} onChange={setHyd} />
+        <NumberField label="Sale %" value={salt} onChange={setSalt} />
+        <NumberField label="Lievito %" value={yeast} onChange={setYeast} />
+      </div>
+      <Result label="Acqua" value={r ? `${nf.format(r.water)} g` : '—'} muted={!r} />
+      <Result
+        label="Sale / lievito"
+        value={r ? `${nf.format(r.salt)} g / ${nf.format(r.yeast)} g` : '—'}
+        muted={!r}
+      />
     </UtilityCard>
   );
 }

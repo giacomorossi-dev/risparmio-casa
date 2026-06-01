@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { percentageOf, percentChange, ruleOfThree, whatPercent } from '../../../lib/calc/math.ts';
 import { convert, type UnitCategory, unitsOf } from '../../../lib/calc/units.ts';
-import { NumberField, nf, Result, SelectField, toNum, UtilityCard } from './kit.tsx';
+import { NumberField, nf, nfPrecise, Result, SelectField, toNum, UtilityCard } from './kit.tsx';
 
 const CATS = [
   { value: 'volume', label: 'Volume' },
@@ -31,7 +31,7 @@ export function UnitConverter() {
   const n = toNum(val);
   let out = '—';
   try {
-    if (!Number.isNaN(n)) out = nf.format(convert(n, from, to));
+    if (!Number.isNaN(n)) out = nfPrecise.format(convert(n, from, to));
   } catch {
     /* unità incompatibili → — */
   }

@@ -13,6 +13,9 @@ import { type ReactNode, useId } from 'react';
 
 export const nf = new Intl.NumberFormat('it-IT', { maximumFractionDigits: 2 });
 export const eur = new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR' });
+/** Formato a cifre significative: evita che le conversioni piccole (es. 1 g → kg)
+ *  vengano arrotondate a "0". */
+export const nfPrecise = new Intl.NumberFormat('it-IT', { maximumSignificantDigits: 6 });
 
 /** Parsa un input numerico accettando la virgola decimale (NaN se vuoto). */
 export function toNum(s: string): number {
@@ -52,13 +55,11 @@ export function NumberField({
   value,
   onChange,
   placeholder,
-  step,
 }: {
   label: string;
   value: string;
   onChange: (v: string) => void;
   placeholder?: string;
-  step?: string;
 }) {
   const id = useId();
   return (
@@ -66,11 +67,12 @@ export function NumberField({
       <label htmlFor={id} className="text-muted-foreground">
         {label}
       </label>
+      {/* text + inputMode=decimal: la tastiera resta numerica ma si può digitare
+          la virgola (type=number la rifiuterebbe); il parsing lo fa toNum. */}
       <Input
         id={id}
-        type="number"
+        type="text"
         inputMode="decimal"
-        step={step}
         value={value}
         placeholder={placeholder}
         onChange={(e) => onChange(e.currentTarget.value)}

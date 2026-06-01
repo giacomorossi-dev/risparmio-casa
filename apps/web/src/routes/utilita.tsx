@@ -17,7 +17,9 @@ import {
 } from '../features/utilita/components/Energy.tsx';
 import { Piastrelle, StanzaAreaVolume, Vernice } from '../features/utilita/components/Home.tsx';
 import {
+  AdattaStampo,
   Forno,
+  Impasto,
   Lievito,
   PerPersona,
   RiscalaRicetta,
@@ -68,7 +70,9 @@ function UtilitaPage() {
         <Forno />
         <Lievito />
         <RiscalaRicetta />
+        <AdattaStampo />
         <PerPersona />
+        <Impasto />
       </Section>
 
       <Section title="Risparmio">
