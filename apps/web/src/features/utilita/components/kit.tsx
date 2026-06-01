@@ -92,12 +92,16 @@ export function SelectField({
   options: { value: string; label: string }[];
 }) {
   const id = useId();
+  // `items` (valore→etichetta) fa sì che il trigger mostri l'etichetta italiana
+  // invece del valore grezzo (id).
+  const items = Object.fromEntries(options.map((o) => [o.value, o.label]));
   return (
     <div className="flex flex-col gap-1 text-sm">
       <label htmlFor={id} className="text-muted-foreground">
         {label}
       </label>
       <Select
+        items={items}
         value={value}
         onValueChange={(v) => {
           if (typeof v === 'string') onChange(v);
