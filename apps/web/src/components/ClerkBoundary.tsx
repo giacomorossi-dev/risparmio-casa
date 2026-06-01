@@ -6,5 +6,17 @@ import type { ReactNode } from 'react';
 // chunk e non in quello delle pagine pubbliche. Lo stato "loggato?" delle pagine
 // pubbliche arriva invece dal server (vedi __root + lib/clerk-server).
 export function ClerkBoundary({ children }: { children: ReactNode }) {
-  return <ClerkProvider>{children}</ClerkProvider>;
+  // signInUrl/signUpUrl tengono i rimandi tra le card ("Hai già un account?" /
+  // "Non hai un account?") DENTRO l'app, senza mandare l'utente alle pagine
+  // hosted di Clerk. I *FallbackRedirectUrl sono dove si atterra dopo l'accesso.
+  return (
+    <ClerkProvider
+      signInUrl="/sign-in"
+      signUpUrl="/sign-up"
+      signInFallbackRedirectUrl="/app"
+      signUpFallbackRedirectUrl="/app"
+    >
+      {children}
+    </ClerkProvider>
+  );
 }

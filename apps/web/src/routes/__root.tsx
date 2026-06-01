@@ -45,10 +45,15 @@ export const Route = createRootRoute({
 
 const i18n = createI18n('it');
 
+// Le route di autenticazione usano un layout a tutto schermo (gradient + card),
+// senza header/footer del sito.
+const isAuthPath = (pathname: string) =>
+  pathname.startsWith('/sign-in') || pathname.startsWith('/sign-up');
+
 function RootComponent() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const theme = themeForPath(pathname);
-  const { isSignedIn } = Route.useLoaderData();
+  const { isSignedIn, imageUrl, initials } = Route.useLoaderData();
 
   // Niente <ClerkProvider> qui: le pagine pubbliche non caricano clerk-js.
   // L'auth interattiva vive in /sign-in e /app (che montano ClerkBoundary).
@@ -56,11 +61,17 @@ function RootComponent() {
     <I18nextProvider i18n={i18n}>
       <RootDocument>
         <div className={`theme-${theme} flex min-h-screen flex-col bg-background text-foreground`}>
-          <Header isSignedIn={isSignedIn} />
-          <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-10">
+          {isAuthPath(pathname) ? (
             <Outlet />
-          </main>
-          <Footer />
+          ) : (
+            <>
+              <Header isSignedIn={isSignedIn} imageUrl={imageUrl} initials={initials} />
+              <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-10">
+                <Outlet />
+              </main>
+              <Footer />
+            </>
+          )}
         </div>
       </RootDocument>
     </I18nextProvider>

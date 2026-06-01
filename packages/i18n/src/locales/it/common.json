@@ -5,6 +5,8 @@
   },
   "nav": {
     "home": "Home",
+    "apps": "App",
+    "contact": "Contatti",
     "signIn": "Accedi",
     "signUp": "Registrati",
     "signOut": "Esci",

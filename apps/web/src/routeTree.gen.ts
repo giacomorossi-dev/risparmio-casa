@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as UtilitaRouteImport } from './routes/utilita'
 import { Route as TerminiRouteImport } from './routes/termini'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SignUpRouteImport } from './routes/sign-up'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as ScorteRouteImport } from './routes/scorte'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
@@ -40,6 +41,11 @@ const TerminiRoute = TerminiRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignUpRoute = SignUpRouteImport.update({
+  id: '/sign-up',
+  path: '/sign-up',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignInRoute = SignInRouteImport.update({
@@ -124,6 +130,7 @@ export interface FileRoutesByFullPath {
   '/robots.txt': typeof RobotsDottxtRoute
   '/scorte': typeof ScorteRoute
   '/sign-in': typeof SignInRoute
+  '/sign-up': typeof SignUpRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/termini': typeof TerminiRoute
   '/utilita': typeof UtilitaRoute
@@ -141,6 +148,7 @@ export interface FileRoutesByTo {
   '/robots.txt': typeof RobotsDottxtRoute
   '/scorte': typeof ScorteRoute
   '/sign-in': typeof SignInRoute
+  '/sign-up': typeof SignUpRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/termini': typeof TerminiRoute
   '/utilita': typeof UtilitaRoute
@@ -161,6 +169,7 @@ export interface FileRoutesById {
   '/robots.txt': typeof RobotsDottxtRoute
   '/scorte': typeof ScorteRoute
   '/sign-in': typeof SignInRoute
+  '/sign-up': typeof SignUpRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/termini': typeof TerminiRoute
   '/utilita': typeof UtilitaRoute
@@ -182,6 +191,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/scorte'
     | '/sign-in'
+    | '/sign-up'
     | '/sitemap.xml'
     | '/termini'
     | '/utilita'
@@ -199,6 +209,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/scorte'
     | '/sign-in'
+    | '/sign-up'
     | '/sitemap.xml'
     | '/termini'
     | '/utilita'
@@ -218,6 +229,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/scorte'
     | '/sign-in'
+    | '/sign-up'
     | '/sitemap.xml'
     | '/termini'
     | '/utilita'
@@ -238,6 +250,7 @@ export interface RootRouteChildren {
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   ScorteRoute: typeof ScorteRoute
   SignInRoute: typeof SignInRoute
+  SignUpRoute: typeof SignUpRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TerminiRoute: typeof TerminiRoute
   UtilitaRoute: typeof UtilitaRoute
@@ -264,6 +277,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sign-up': {
+      id: '/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof SignUpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sign-in': {
@@ -405,6 +425,7 @@ const rootRouteChildren: RootRouteChildren = {
   RobotsDottxtRoute: RobotsDottxtRoute,
   ScorteRoute: ScorteRoute,
   SignInRoute: SignInRoute,
+  SignUpRoute: SignUpRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TerminiRoute: TerminiRoute,
   UtilitaRoute: UtilitaRoute,

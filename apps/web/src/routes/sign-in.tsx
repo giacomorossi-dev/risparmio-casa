@@ -1,6 +1,7 @@
 import { SignIn } from '@clerk/tanstack-react-start';
 import { createFileRoute } from '@tanstack/react-router';
 
+import { AuthLayout } from '../components/AuthLayout.tsx';
 import { ClerkBoundary } from '../components/ClerkBoundary.tsx';
 
 export const Route = createFileRoute('/sign-in')({
@@ -12,9 +13,9 @@ export const Route = createFileRoute('/sign-in')({
 function SignInPage() {
   return (
     <ClerkBoundary>
-      <div className="flex justify-center py-10">
+      <AuthLayout>
         <SignIn routing="hash" />
-      </div>
+      </AuthLayout>
     </ClerkBoundary>
   );
 }
