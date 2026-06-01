@@ -55,7 +55,14 @@ Portata da un repo standalone in `apps/web/src/features/quale-conviene/` (logica
 
 ## Libreria di calcolo (utilità)
 
-Logica delle utility in `apps/web/src/lib/calc/` — **funzioni pure** raggruppate per dominio (`units`, `kitchen`, `money`, `energy`, `home`, `math`) + tabelle dati statiche (`data.ts`) e barrel `index.ts`. Disaccoppiata dalla UI e **riusabile da tutte le sotto-app** (quale-conviene/scorte/utilità): si importa da `../lib/calc` (o dal modulo specifico). Ogni funzione ha test golden colocati `*.test.ts` (vitest), così la matematica è verificabile granularmente prima di costruirci sopra le UI. La UI dei tool e l'integrazione nelle pagine delle app sono un passo successivo.
+Logica delle utility in `apps/web/src/lib/calc/` — **funzioni pure** raggruppate per dominio (`units`, `kitchen`, `money`, `energy`, `home`, `math`) + tabelle dati statiche (`data.ts`) e barrel `index.ts`. Disaccoppiata dalla UI e **riusabile da tutte le sotto-app**: si importa da `../lib/calc`. Ogni funzione ha test golden colocati `*.test.ts` (vitest).
+
+**App Utilità** (`features/utilita/` + `routes/utilita/`): ogni tool è una **pagina** `/utilita/$slug`. Separazione netta per non appesantire il bundle:
+- `catalog.tsx` = metadati **leggeri** (slug/nome/descrizione/keyword/icona/sezione/`estimate`), eager: alimenta landing, ricerca, loader/head.
+- `lazy.tsx` = mappa slug → componente interattivo in `React.lazy` → il codice dei tool sta in chunk per-dominio, **non** nel chunk principale/landing.
+- `components/*` = widget "headless" (`ToolBody` + campi da `kit.tsx`), senza titolo/icona (vengono dal catalog).
+- `usePinned.ts` = pin in localStorage (unico punto da spostare sul DB).
+- Tool con `estimate: true` mostrano un avviso "risultato indicativo". e2e in `e2e/utilita.spec.ts`.
 
 ## Site-wide
 - **Auth (Clerk, opzionale)**: `clerkMiddleware` SSR in `start.ts` + `<ClerkProvider>` in `__root` + controlli in `components/AuthControls.tsx`. Tutto è gated su `src/lib/clerk.ts` (`clerkEnabled` = presenza di `VITE_CLERK_PUBLISHABLE_KEY`) lato client e su `CLERK_SECRET_KEY`/`OFFLINE_AUTH` lato server: **senza chiavi il sito rende lo stesso** (niente 500, niente controlli auth) invece di fallire. Le route pubbliche non usano auth server-side.

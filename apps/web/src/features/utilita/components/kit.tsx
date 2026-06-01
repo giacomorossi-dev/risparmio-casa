@@ -6,7 +6,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@rc/ui/components/select';
-import type { LucideIcon } from 'lucide-react';
 import { type ReactNode, useId } from 'react';
 
 // Mattoncini condivisi per le card-utility: shell, campi e formattazione.
@@ -23,30 +22,10 @@ export function toNum(s: string): number {
   return t === '' ? Number.NaN : Number(t);
 }
 
-/** Card-utility: titolo + icona + corpo interattivo. */
-export function UtilityCard({
-  icon: Icon,
-  title,
-  hint,
-  children,
-}: {
-  icon: LucideIcon;
-  title: string;
-  hint?: string;
-  children: ReactNode;
-}) {
-  return (
-    <div className="flex h-full flex-col gap-3 rounded-xl border bg-card p-4">
-      <div className="flex items-center gap-2">
-        <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-foreground">
-          <Icon className="size-4" />
-        </span>
-        <h3 className="font-semibold">{title}</h3>
-      </div>
-      {hint && <p className="text-muted-foreground text-xs leading-snug">{hint}</p>}
-      <div className="flex flex-1 flex-col gap-3">{children}</div>
-    </div>
-  );
+// Corpo interattivo di un tool, senza chrome: nome/icona/descrizione vivono nel
+// catalog ed è la pagina del tool a fornirli (niente duplicazione).
+export function ToolBody({ children }: { children: ReactNode }) {
+  return <div className="flex flex-col gap-3">{children}</div>;
 }
 
 /** Campo numerico etichettato (stato come stringa, virgola ammessa). */
@@ -135,7 +114,7 @@ export function Result({
   muted?: boolean;
 }) {
   return (
-    <div className="mt-auto rounded-lg bg-muted/50 px-3 py-2 text-sm">
+    <div role="status" aria-live="polite" className="rounded-lg bg-muted/50 px-3 py-2 text-sm">
       {label && <span className="text-muted-foreground">{label}: </span>}
       <strong className={`tabular-nums ${muted ? 'text-muted-foreground' : 'text-foreground'}`}>
         {value}

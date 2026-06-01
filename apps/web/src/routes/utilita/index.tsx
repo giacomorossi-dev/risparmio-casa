@@ -5,8 +5,8 @@ import { type ReactNode, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Hero } from '../../components/Hero.tsx';
+import { SECTIONS, searchTools } from '../../features/utilita/catalog.tsx';
 import { ToolCard } from '../../features/utilita/components/ToolCard.tsx';
-import { SECTIONS, searchTools } from '../../features/utilita/tools.tsx';
 import { usePinned } from '../../features/utilita/usePinned.ts';
 import { canonical } from '../../lib/site.ts';
 

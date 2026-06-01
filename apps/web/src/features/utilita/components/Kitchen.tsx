@@ -1,5 +1,5 @@
-import { CakeSlice, ChefHat, CircleDot, Flame, Scale, Users, Wheat } from 'lucide-react';
 import { useState } from 'react';
+
 import { INGREDIENT_DENSITY, SERVING_GRAMS } from '../../../lib/calc/data.ts';
 import {
   bakersPercentage,
@@ -12,7 +12,7 @@ import {
   volumeToWeight,
   weightToVolume,
 } from '../../../lib/calc/kitchen.ts';
-import { NumberField, nf, Result, SelectField, toNum, UtilityCard } from './kit.tsx';
+import { NumberField, nf, Result, SelectField, ToolBody, toNum } from './kit.tsx';
 
 const INGREDIENTS = Object.entries(INGREDIENT_DENSITY).map(([value, d]) => ({
   value,
@@ -36,12 +36,12 @@ export function VolumePeso() {
         : `${nf.format(weightToVolume(ing, n))} ml`;
   }
   return (
-    <UtilityCard icon={Scale} title="Volume ↔ peso" hint="Bicchieri/cucchiai → grammi e viceversa">
+    <ToolBody>
       <SelectField label="Ingrediente" value={ing} onChange={setIng} options={INGREDIENTS} />
       <SelectField label="Conversione" value={dir} onChange={setDir} options={VP_DIR} />
       <NumberField label={dir === 'v2w' ? 'Millilitri' : 'Grammi'} value={val} onChange={setVal} />
       <Result value={out} muted={out === '—'} />
-    </UtilityCard>
+    </ToolBody>
   );
 }
 
@@ -59,12 +59,12 @@ export function Forno() {
     : `${nf.format(dir === 's2f' ? ovenConvert(n, 'static', 'fan') : ovenConvert(n, 'fan', 'static'))} °C`;
   const gas = Number.isNaN(n) ? '—' : `gas mark ${celsiusToGasMark(n)}`;
   return (
-    <UtilityCard icon={Flame} title="Forno" hint="Statico ↔ ventilato (≈ −20 °C) + gas mark">
+    <ToolBody>
       <SelectField label="Conversione" value={dir} onChange={setDir} options={OVEN_DIR} />
       <NumberField label="Temperatura (°C)" value={val} onChange={setVal} />
       <Result label="Convertita" value={out} muted={out === '—'} />
       <Result label="Equivale a" value={gas} muted={gas === '—'} />
-    </UtilityCard>
+    </ToolBody>
   );
 }
 
@@ -81,11 +81,11 @@ export function Lievito() {
     ? '—'
     : `${nf.format(dir === 'f2d' ? convertYeast(n, 'fresh', 'dry') : convertYeast(n, 'dry', 'fresh'))} g`;
   return (
-    <UtilityCard icon={ChefHat} title="Lievito" hint="Birra fresco ↔ secco (fattore 3)">
+    <ToolBody>
       <SelectField label="Conversione" value={dir} onChange={setDir} options={YEAST_DIR} />
       <NumberField label="Grammi di partenza" value={val} onChange={setVal} />
       <Result value={out} muted={out === '—'} />
-    </UtilityCard>
+    </ToolBody>
   );
 }
 
@@ -108,7 +108,7 @@ export function RiscalaRicetta() {
     /* porzioni = 0 → — */
   }
   return (
-    <UtilityCard icon={Users} title="Riscala ricetta" hint="Adatta le dosi al numero di porzioni">
+    <ToolBody>
       <div className="grid grid-cols-2 gap-2">
         <NumberField label="Da (porzioni)" value={from} onChange={setFrom} />
         <NumberField label="A (porzioni)" value={to} onChange={setTo} />
@@ -116,7 +116,7 @@ export function RiscalaRicetta() {
       <NumberField label="Quantità ingrediente (facolt.)" value={qty} onChange={setQty} />
       <Result label="Fattore" value={factor} muted={factor === '—'} />
       {scaled !== '—' && <Result label="Quantità adattata" value={scaled} />}
-    </UtilityCard>
+    </ToolBody>
   );
 }
 
@@ -128,11 +128,11 @@ export function PerPersona() {
   const n = toNum(people);
   const out = Number.isNaN(n) ? '—' : `${nf.format(servingAmount(food, n))} g`;
   return (
-    <UtilityCard icon={CakeSlice} title="Quanto cucinare" hint="Grammi consigliati per N persone">
+    <ToolBody>
       <SelectField label="Alimento" value={food} onChange={setFood} options={FOODS} />
       <NumberField label="Persone" value={people} onChange={setPeople} />
       <Result label="Totale" value={out} muted={out === '—'} />
-    </UtilityCard>
+    </ToolBody>
   );
 }
 
@@ -153,11 +153,7 @@ export function AdattaStampo() {
     /* diametro 0 → — */
   }
   return (
-    <UtilityCard
-      icon={CircleDot}
-      title="Adatta lo stampo"
-      hint="Dosi tra teglie tonde di Ø diverso"
-    >
+    <ToolBody>
       <div className="grid grid-cols-2 gap-2">
         <NumberField label="Da Ø (cm)" value={from} onChange={setFrom} />
         <NumberField label="A Ø (cm)" value={to} onChange={setTo} />
@@ -165,7 +161,7 @@ export function AdattaStampo() {
       <NumberField label="Quantità ingrediente (facolt.)" value={qty} onChange={setQty} />
       <Result label="Fattore" value={factor} muted={factor === '—'} />
       {scaled !== '—' && <Result label="Quantità adattata" value={scaled} />}
-    </UtilityCard>
+    </ToolBody>
   );
 }
 
@@ -181,7 +177,7 @@ export function Impasto() {
     r = bakersPercentage(f, { hydration: h, salt: s, yeast: y });
   }
   return (
-    <UtilityCard icon={Wheat} title="Impasto (baker's %)" hint="Percentuali sul peso della farina">
+    <ToolBody>
       <NumberField label="Farina (g)" value={flour} onChange={setFlour} />
       <div className="grid grid-cols-3 gap-2">
         <NumberField label="Acqua %" value={hyd} onChange={setHyd} />
@@ -194,6 +190,6 @@ export function Impasto() {
         value={r ? `${nf.format(r.salt)} g / ${nf.format(r.yeast)} g` : '—'}
         muted={!r}
       />
-    </UtilityCard>
+    </ToolBody>
   );
 }

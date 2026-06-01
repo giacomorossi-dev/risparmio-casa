@@ -1,9 +1,8 @@
-import { ArrowLeftRight, Divide, Percent } from 'lucide-react';
 import { useState } from 'react';
 
 import { percentageOf, percentChange, ruleOfThree, whatPercent } from '../../../lib/calc/math.ts';
 import { convert, type UnitCategory, unitsOf } from '../../../lib/calc/units.ts';
-import { NumberField, nf, nfPrecise, Result, SelectField, toNum, UtilityCard } from './kit.tsx';
+import { NumberField, nf, nfPrecise, Result, SelectField, ToolBody, toNum } from './kit.tsx';
 
 const CATS = [
   { value: 'volume', label: 'Volume' },
@@ -37,7 +36,7 @@ export function UnitConverter() {
   }
 
   return (
-    <UtilityCard icon={ArrowLeftRight} title="Convertitore unità">
+    <ToolBody>
       <SelectField label="Categoria" value={cat} onChange={onCat} options={CATS} />
       <NumberField label="Valore" value={val} onChange={setVal} />
       <div className="grid grid-cols-2 gap-2">
@@ -45,7 +44,7 @@ export function UnitConverter() {
         <SelectField label="A" value={to} onChange={setTo} options={opts} />
       </div>
       <Result value={out} muted={out === '—'} />
-    </UtilityCard>
+    </ToolBody>
   );
 }
 
@@ -76,14 +75,14 @@ export function Percentuali() {
   }
 
   return (
-    <UtilityCard icon={Percent} title="Percentuali">
+    <ToolBody>
       <SelectField label="Calcolo" value={mode} onChange={setMode} options={PCT_MODES} />
       <div className="grid grid-cols-2 gap-2">
         <NumberField label={labelA} value={a} onChange={setA} />
         <NumberField label={labelB} value={b} onChange={setB} />
       </div>
       <Result value={out} muted={out === '—'} />
-    </UtilityCard>
+    </ToolBody>
   );
 }
 
@@ -99,13 +98,14 @@ export function RegolaDelTre() {
     /* a = 0 → — */
   }
   return (
-    <UtilityCard icon={Divide} title="Regola del tre" hint="A : B = C : ?">
+    <ToolBody>
+      <p className="text-muted-foreground text-sm">A : B = C : ?</p>
       <div className="grid grid-cols-3 gap-2">
         <NumberField label="A" value={a} onChange={setA} />
         <NumberField label="B" value={b} onChange={setB} />
         <NumberField label="C" value={c} onChange={setC} />
       </div>
       <Result label="Risultato" value={out} muted={out === '—'} />
-    </UtilityCard>
+    </ToolBody>
   );
 }

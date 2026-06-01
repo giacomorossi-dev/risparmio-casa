@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import { Pin } from 'lucide-react';
 
-import type { Tool } from '../tools.tsx';
+import type { Tool } from '../catalog.tsx';
 
 // Card della landing: nome + descrizione, link alla pagina del tool. Il pulsante
 // "pin" è un fratello del Link (non annidato) così non fa navigare.

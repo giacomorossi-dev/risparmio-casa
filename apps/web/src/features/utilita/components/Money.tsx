@@ -1,4 +1,3 @@
-import { Calculator, CalendarClock, Percent, PiggyBank, Receipt, Tags, Users } from 'lucide-react';
 import { useState } from 'react';
 
 import {
@@ -12,7 +11,7 @@ import {
   removeVat,
   splitEven,
 } from '../../../lib/calc/money.ts';
-import { eur, NumberField, Result, SelectField, toNum, UtilityCard } from './kit.tsx';
+import { eur, NumberField, Result, SelectField, ToolBody, toNum } from './kit.tsx';
 
 export function Sconto() {
   const [price, setPrice] = useState('');
@@ -20,17 +19,21 @@ export function Sconto() {
   const np = toNum(price);
   const npct = toNum(pct);
   const valid = !Number.isNaN(np) && !Number.isNaN(npct);
+  const outOfRange = !Number.isNaN(npct) && (npct < 0 || npct > 100);
   return (
-    <UtilityCard icon={Tags} title="Sconto" hint="Prezzo finale dopo lo sconto">
+    <ToolBody>
       <NumberField label="Prezzo (€)" value={price} onChange={setPrice} />
       <NumberField label="Sconto (%)" value={pct} onChange={setPct} />
+      {outOfRange && (
+        <p className="text-destructive text-xs">Lo sconto dovrebbe essere tra 0 e 100%.</p>
+      )}
       <Result
         label="Prezzo finale"
         value={valid ? eur.format(applyDiscount(np, npct)) : '—'}
         muted={!valid}
       />
       {valid && <Result label="Risparmi" value={eur.format(np - applyDiscount(np, npct))} />}
-    </UtilityCard>
+    </ToolBody>
   );
 }
 
@@ -46,14 +49,14 @@ export function OffertaMultipla() {
     /* compra 0 → — */
   }
   return (
-    <UtilityCard icon={Percent} title="Offerta 3×2 & simili" hint="Prezzo reale a unità">
+    <ToolBody>
       <NumberField label="Prezzo a pezzo (€)" value={price} onChange={setPrice} />
       <div className="grid grid-cols-2 gap-2">
         <NumberField label="Ne prendi" value={buy} onChange={setBuy} />
         <NumberField label="Ne paghi" value={pay} onChange={setPay} />
       </div>
       <Result label="Prezzo effettivo/pezzo" value={out} muted={out === '—'} />
-    </UtilityCard>
+    </ToolBody>
   );
 }
 
@@ -78,7 +81,7 @@ export function Iva() {
   const res = dir === 'add' ? addVat(n, r) : null;
   const rem = dir === 'remove' ? removeVat(n, r) : null;
   return (
-    <UtilityCard icon={Receipt} title="IVA" hint="Aggiungi o scorpora l'IVA">
+    <ToolBody>
       <SelectField label="Operazione" value={dir} onChange={setDir} options={VAT_DIR} />
       <div className="grid grid-cols-2 gap-2">
         <SelectField label="Aliquota" value={rate} onChange={setRate} options={VAT_RATES} />
@@ -103,7 +106,7 @@ export function Iva() {
           <Result label="IVA" value={valid && rem ? eur.format(rem.vat) : '—'} muted={!valid} />
         </>
       )}
-    </UtilityCard>
+    </ToolBody>
   );
 }
 
@@ -120,18 +123,14 @@ export function CostoNelTempo() {
   const n = toNum(amount);
   const proj = Number.isNaN(n) ? null : costOverTime(n, period as Period);
   return (
-    <UtilityCard
-      icon={CalendarClock}
-      title="Costo nel tempo"
-      hint="Quanto pesa davvero un'abitudine"
-    >
+    <ToolBody>
       <div className="grid grid-cols-2 gap-2">
         <NumberField label="Importo (€)" value={amount} onChange={setAmount} />
         <SelectField label="Ogni" value={period} onChange={setPeriod} options={PERIODS} />
       </div>
       <Result label="Al mese" value={proj ? eur.format(proj.month) : '—'} muted={!proj} />
       <Result label="All'anno" value={proj ? eur.format(proj.year) : '—'} muted={!proj} />
-    </UtilityCard>
+    </ToolBody>
   );
 }
 
@@ -147,7 +146,7 @@ export function FattoInCasa() {
     /* porzioni 0 → — */
   }
   return (
-    <UtilityCard icon={PiggyBank} title="Fatto in casa vs comprato" hint="Risparmio a porzione">
+    <ToolBody>
       <NumberField label="Costo ingredienti (€)" value={ing} onChange={setIng} />
       <div className="grid grid-cols-2 gap-2">
         <NumberField label="Porzioni" value={servings} onChange={setServings} />
@@ -163,7 +162,7 @@ export function FattoInCasa() {
         value={res ? eur.format(res.savingPerServing) : '—'}
         muted={!res}
       />
-    </UtilityCard>
+    </ToolBody>
   );
 }
 
@@ -178,13 +177,13 @@ export function DividiConto() {
     /* 0 persone → — */
   }
   return (
-    <UtilityCard icon={Users} title="Dividi il conto" hint="Quota a testa">
+    <ToolBody>
       <div className="grid grid-cols-2 gap-2">
         <NumberField label="Totale (€)" value={total} onChange={setTotal} />
         <NumberField label="Persone" value={people} onChange={setPeople} />
       </div>
       <Result label="A testa" value={out} muted={out === '—'} />
-    </UtilityCard>
+    </ToolBody>
   );
 }
 
@@ -201,7 +200,7 @@ export function Ammortamento() {
     res = compareAppliances({ price: 0, yearlyKwh: oK }, { price: nP, yearlyKwh: nK }, pk, y);
   }
   return (
-    <UtilityCard icon={Calculator} title="Cambio elettrodomestico" hint="Conviene sostituirlo?">
+    <ToolBody>
       <NumberField label="kWh/anno attuale" value={oldKwh} onChange={setOldKwh} />
       <div className="grid grid-cols-2 gap-2">
         <NumberField label="Prezzo nuovo (€)" value={newPrice} onChange={setNewPrice} />
@@ -216,6 +215,6 @@ export function Ammortamento() {
         value={res ? eur.format(Math.abs(res.saving)) : '—'}
         muted={!res}
       />
-    </UtilityCard>
+    </ToolBody>
   );
 }

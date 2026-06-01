@@ -23,36 +23,10 @@ import {
   Wheat,
   Zap,
 } from 'lucide-react';
-import type { ReactNode } from 'react';
 
-import { Percentuali, RegolaDelTre, UnitConverter } from './components/Converters.tsx';
-import {
-  Carburante,
-  Condizionatore,
-  CostoElettrodomestico,
-  Gas,
-  RubinettoCheGocciola,
-} from './components/Energy.tsx';
-import { Piastrelle, StanzaAreaVolume, Vernice } from './components/Home.tsx';
-import {
-  AdattaStampo,
-  Forno,
-  Impasto,
-  Lievito,
-  PerPersona,
-  RiscalaRicetta,
-  VolumePeso,
-} from './components/Kitchen.tsx';
-import {
-  Ammortamento,
-  CostoNelTempo,
-  DividiConto,
-  FattoInCasa,
-  Iva,
-  OffertaMultipla,
-  Sconto,
-} from './components/Money.tsx';
-
+// Catalogo "leggero" delle utility: solo metadati (niente import dei widget), così
+// la landing e il loader/head di /utilita/$slug restano fuori dai chunk pesanti
+// dei tool. I componenti interattivi si caricano lazy (vedi lazy.tsx).
 export type ToolSection = 'conversioni' | 'cucina' | 'risparmio' | 'casa';
 
 export type Tool = {
@@ -63,7 +37,8 @@ export type Tool = {
   keywords: string[];
   icon: LucideIcon;
   section: ToolSection;
-  Component: () => ReactNode;
+  /** Tool basato su valori medi/euristiche → mostra un avviso "stima". */
+  estimate?: boolean;
 };
 
 export const SECTIONS: { id: ToolSection; label: string }[] = [
@@ -93,7 +68,6 @@ export const TOOLS: Tool[] = [
     ],
     icon: ArrowLeftRight,
     section: 'conversioni',
-    Component: UnitConverter,
   },
   {
     slug: 'percentuali',
@@ -102,7 +76,6 @@ export const TOOLS: Tool[] = [
     keywords: ['percentuale', 'percento', 'variazione', 'aumento', '%'],
     icon: Percent,
     section: 'conversioni',
-    Component: Percentuali,
   },
   {
     slug: 'regola-del-tre',
@@ -111,7 +84,6 @@ export const TOOLS: Tool[] = [
     keywords: ['proporzione', 'regola del tre', 'rapporto'],
     icon: Divide,
     section: 'conversioni',
-    Component: RegolaDelTre,
   },
   // --- Cucina ---
   {
@@ -121,7 +93,7 @@ export const TOOLS: Tool[] = [
     keywords: ['grammi', 'ml', 'bicchiere', 'cucchiaio', 'farina', 'densità', 'ricetta'],
     icon: Scale,
     section: 'cucina',
-    Component: VolumePeso,
+    estimate: true,
   },
   {
     slug: 'forno',
@@ -130,7 +102,7 @@ export const TOOLS: Tool[] = [
     keywords: ['forno', 'statico', 'ventilato', 'gas mark', 'temperatura', 'gradi'],
     icon: Flame,
     section: 'cucina',
-    Component: Forno,
+    estimate: true,
   },
   {
     slug: 'lievito',
@@ -139,7 +111,7 @@ export const TOOLS: Tool[] = [
     keywords: ['lievito', 'fresco', 'secco', 'birra', 'dosi'],
     icon: ChefHat,
     section: 'cucina',
-    Component: Lievito,
+    estimate: true,
   },
   {
     slug: 'riscala-ricetta',
@@ -148,7 +120,6 @@ export const TOOLS: Tool[] = [
     keywords: ['porzioni', 'dosi', 'ricetta', 'persone'],
     icon: Users,
     section: 'cucina',
-    Component: RiscalaRicetta,
   },
   {
     slug: 'adatta-stampo',
@@ -157,7 +128,6 @@ export const TOOLS: Tool[] = [
     keywords: ['stampo', 'teglia', 'torta', 'diametro', 'dosi'],
     icon: CircleDot,
     section: 'cucina',
-    Component: AdattaStampo,
   },
   {
     slug: 'quanto-cucinare',
@@ -166,7 +136,7 @@ export const TOOLS: Tool[] = [
     keywords: ['porzioni', 'persone', 'pasta', 'riso', 'grammi', 'ospiti'],
     icon: CakeSlice,
     section: 'cucina',
-    Component: PerPersona,
+    estimate: true,
   },
   {
     slug: 'impasto',
@@ -175,7 +145,7 @@ export const TOOLS: Tool[] = [
     keywords: ['impasto', 'pane', 'pizza', 'idratazione', 'baker', 'farina'],
     icon: Wheat,
     section: 'cucina',
-    Component: Impasto,
+    estimate: true,
   },
   // --- Risparmio ---
   {
@@ -185,7 +155,6 @@ export const TOOLS: Tool[] = [
     keywords: ['sconto', 'prezzo', 'saldi', 'percentuale', 'offerta'],
     icon: Tags,
     section: 'risparmio',
-    Component: Sconto,
   },
   {
     slug: 'offerta-3x2',
@@ -194,7 +163,6 @@ export const TOOLS: Tool[] = [
     keywords: ['3x2', 'offerta', 'prezzo', 'pezzo', 'promozione'],
     icon: Percent,
     section: 'risparmio',
-    Component: OffertaMultipla,
   },
   {
     slug: 'iva',
@@ -203,7 +171,6 @@ export const TOOLS: Tool[] = [
     keywords: ['iva', 'imponibile', 'lordo', 'aliquota', 'scorporo', 'fattura'],
     icon: Receipt,
     section: 'risparmio',
-    Component: Iva,
   },
   {
     slug: 'costo-nel-tempo',
@@ -212,7 +179,6 @@ export const TOOLS: Tool[] = [
     keywords: ['abbonamento', 'caffè', 'costo', 'mensile', 'annuo', 'abitudine'],
     icon: CalendarClock,
     section: 'risparmio',
-    Component: CostoNelTempo,
   },
   {
     slug: 'fatto-in-casa',
@@ -221,7 +187,6 @@ export const TOOLS: Tool[] = [
     keywords: ['fatto in casa', 'risparmio', 'porzione', 'costo'],
     icon: PiggyBank,
     section: 'risparmio',
-    Component: FattoInCasa,
   },
   {
     slug: 'dividi-conto',
@@ -230,7 +195,6 @@ export const TOOLS: Tool[] = [
     keywords: ['conto', 'dividi', 'spesa', 'persone', 'cena'],
     icon: Users,
     section: 'risparmio',
-    Component: DividiConto,
   },
   {
     slug: 'cambio-elettrodomestico',
@@ -239,7 +203,7 @@ export const TOOLS: Tool[] = [
     keywords: ['elettrodomestico', 'classe energetica', 'ammortamento', 'consumo', 'frigo'],
     icon: Calculator,
     section: 'risparmio',
-    Component: Ammortamento,
+    estimate: true,
   },
   // --- Casa e bollette ---
   {
@@ -249,7 +213,7 @@ export const TOOLS: Tool[] = [
     keywords: ['bolletta', 'energia', 'kwh', 'watt', 'consumo', 'elettrodomestico'],
     icon: Zap,
     section: 'casa',
-    Component: CostoElettrodomestico,
+    estimate: true,
   },
   {
     slug: 'gas',
@@ -258,7 +222,7 @@ export const TOOLS: Tool[] = [
     keywords: ['gas', 'm3', 'kwh', 'bolletta', 'metano', 'riscaldamento'],
     icon: Flame,
     section: 'casa',
-    Component: Gas,
+    estimate: true,
   },
   {
     slug: 'rubinetto',
@@ -267,7 +231,7 @@ export const TOOLS: Tool[] = [
     keywords: ['acqua', 'rubinetto', 'spreco', 'perdita', 'gocce'],
     icon: Droplets,
     section: 'casa',
-    Component: RubinettoCheGocciola,
+    estimate: true,
   },
   {
     slug: 'btu-condizionatore',
@@ -276,7 +240,7 @@ export const TOOLS: Tool[] = [
     keywords: ['condizionatore', 'btu', 'climatizzatore', 'stanza', 'raffrescamento'],
     icon: Snowflake,
     section: 'casa',
-    Component: Condizionatore,
+    estimate: true,
   },
   {
     slug: 'costo-tragitto',
@@ -285,7 +249,7 @@ export const TOOLS: Tool[] = [
     keywords: ['carburante', 'benzina', 'diesel', 'viaggio', 'km', 'consumo'],
     icon: Fuel,
     section: 'casa',
-    Component: Carburante,
+    estimate: true,
   },
   {
     slug: 'vernice',
@@ -294,7 +258,7 @@ export const TOOLS: Tool[] = [
     keywords: ['vernice', 'pittura', 'imbiancare', 'm2', 'pareti'],
     icon: PaintRoller,
     section: 'casa',
-    Component: Vernice,
+    estimate: true,
   },
   {
     slug: 'piastrelle',
@@ -303,7 +267,7 @@ export const TOOLS: Tool[] = [
     keywords: ['piastrelle', 'parquet', 'pavimento', 'm2', 'sfrido', 'scatole'],
     icon: LayoutGrid,
     section: 'casa',
-    Component: Piastrelle,
+    estimate: true,
   },
   {
     slug: 'area-volume-stanza',
@@ -312,7 +276,6 @@ export const TOOLS: Tool[] = [
     keywords: ['area', 'volume', 'stanza', 'm2', 'm3', 'metri'],
     icon: Ruler,
     section: 'casa',
-    Component: StanzaAreaVolume,
   },
 ];
 
