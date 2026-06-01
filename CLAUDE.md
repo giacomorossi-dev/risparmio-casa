@@ -53,6 +53,10 @@ Portata da un repo standalone in `apps/web/src/features/quale-conviene/` (logica
 - **Test**: la matematica (contratto) è coperta dai test golden `lib/*.test.ts` (35). I percorsi utente (home/ricerca, categoria, share `?d=`, wizard, SEO/JSON-LD) sono coperti da una suite **e2e Playwright** in `apps/web/e2e/` (`playwright.config.ts`, script `test:e2e` → task turbo, job `e2e` in `ci.yml`) che gira contro il **build SSR di produzione**, in modalità **key-less** (Clerk disattivato, vedi sotto): nessun secret richiesto, né in locale né in CI.
 - **PWA**: `icon.svg`/`manifest.json` usano un'icona **placeholder**; le icone PNG di brand (192/512, maskable) vanno generate quando il brand è definito.
 
+## Libreria di calcolo (utilità)
+
+Logica delle utility in `apps/web/src/lib/calc/` — **funzioni pure** raggruppate per dominio (`units`, `kitchen`, `money`, `energy`, `home`, `math`) + tabelle dati statiche (`data.ts`) e barrel `index.ts`. Disaccoppiata dalla UI e **riusabile da tutte le sotto-app** (quale-conviene/scorte/utilità): si importa da `../lib/calc` (o dal modulo specifico). Ogni funzione ha test golden colocati `*.test.ts` (vitest), così la matematica è verificabile granularmente prima di costruirci sopra le UI. La UI dei tool e l'integrazione nelle pagine delle app sono un passo successivo.
+
 ## Site-wide
 - **Auth (Clerk, opzionale)**: `clerkMiddleware` SSR in `start.ts` + `<ClerkProvider>` in `__root` + controlli in `components/AuthControls.tsx`. Tutto è gated su `src/lib/clerk.ts` (`clerkEnabled` = presenza di `VITE_CLERK_PUBLISHABLE_KEY`) lato client e su `CLERK_SECRET_KEY`/`OFFLINE_AUTH` lato server: **senza chiavi il sito rende lo stesso** (niente 500, niente controlli auth) invece di fallire. Le route pubbliche non usano auth server-side.
 - **Dark mode**: `ThemeToggle` (chiave `rc:theme`) nell'`Header` + bootstrap pre-hydration in `__root`.
