@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as UtilitaRouteImport } from './routes/utilita'
 import { Route as TerminiRouteImport } from './routes/termini'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SignUpRouteImport } from './routes/sign-up'
@@ -23,16 +22,13 @@ import { Route as ContattiRouteImport } from './routes/contatti'
 import { Route as QualeConvieneRouteRouteImport } from './routes/quale-conviene/route'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as UtilitaIndexRouteImport } from './routes/utilita/index'
 import { Route as QualeConvieneIndexRouteImport } from './routes/quale-conviene/index'
 import { Route as AppIndexRouteImport } from './routes/app/index'
+import { Route as UtilitaSlugRouteImport } from './routes/utilita/$slug'
 import { Route as QualeConvieneConfrontaRouteImport } from './routes/quale-conviene/confronta'
 import { Route as QualeConvieneCategoryRouteImport } from './routes/quale-conviene/$category'
 
-const UtilitaRoute = UtilitaRouteImport.update({
-  id: '/utilita',
-  path: '/utilita',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const TerminiRoute = TerminiRouteImport.update({
   id: '/termini',
   path: '/termini',
@@ -98,6 +94,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UtilitaIndexRoute = UtilitaIndexRouteImport.update({
+  id: '/utilita/',
+  path: '/utilita/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QualeConvieneIndexRoute = QualeConvieneIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -107,6 +108,11 @@ const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRouteRoute,
+} as any)
+const UtilitaSlugRoute = UtilitaSlugRouteImport.update({
+  id: '/utilita/$slug',
+  path: '/utilita/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const QualeConvieneConfrontaRoute = QualeConvieneConfrontaRouteImport.update({
   id: '/confronta',
@@ -133,11 +139,12 @@ export interface FileRoutesByFullPath {
   '/sign-up': typeof SignUpRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/termini': typeof TerminiRoute
-  '/utilita': typeof UtilitaRoute
   '/quale-conviene/$category': typeof QualeConvieneCategoryRoute
   '/quale-conviene/confronta': typeof QualeConvieneConfrontaRoute
+  '/utilita/$slug': typeof UtilitaSlugRoute
   '/app/': typeof AppIndexRoute
   '/quale-conviene/': typeof QualeConvieneIndexRoute
+  '/utilita/': typeof UtilitaIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -151,11 +158,12 @@ export interface FileRoutesByTo {
   '/sign-up': typeof SignUpRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/termini': typeof TerminiRoute
-  '/utilita': typeof UtilitaRoute
   '/quale-conviene/$category': typeof QualeConvieneCategoryRoute
   '/quale-conviene/confronta': typeof QualeConvieneConfrontaRoute
+  '/utilita/$slug': typeof UtilitaSlugRoute
   '/app': typeof AppIndexRoute
   '/quale-conviene': typeof QualeConvieneIndexRoute
+  '/utilita': typeof UtilitaIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -172,11 +180,12 @@ export interface FileRoutesById {
   '/sign-up': typeof SignUpRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/termini': typeof TerminiRoute
-  '/utilita': typeof UtilitaRoute
   '/quale-conviene/$category': typeof QualeConvieneCategoryRoute
   '/quale-conviene/confronta': typeof QualeConvieneConfrontaRoute
+  '/utilita/$slug': typeof UtilitaSlugRoute
   '/app/': typeof AppIndexRoute
   '/quale-conviene/': typeof QualeConvieneIndexRoute
+  '/utilita/': typeof UtilitaIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -194,11 +203,12 @@ export interface FileRouteTypes {
     | '/sign-up'
     | '/sitemap.xml'
     | '/termini'
-    | '/utilita'
     | '/quale-conviene/$category'
     | '/quale-conviene/confronta'
+    | '/utilita/$slug'
     | '/app/'
     | '/quale-conviene/'
+    | '/utilita/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -212,11 +222,12 @@ export interface FileRouteTypes {
     | '/sign-up'
     | '/sitemap.xml'
     | '/termini'
-    | '/utilita'
     | '/quale-conviene/$category'
     | '/quale-conviene/confronta'
+    | '/utilita/$slug'
     | '/app'
     | '/quale-conviene'
+    | '/utilita'
   id:
     | '__root__'
     | '/'
@@ -232,11 +243,12 @@ export interface FileRouteTypes {
     | '/sign-up'
     | '/sitemap.xml'
     | '/termini'
-    | '/utilita'
     | '/quale-conviene/$category'
     | '/quale-conviene/confronta'
+    | '/utilita/$slug'
     | '/app/'
     | '/quale-conviene/'
+    | '/utilita/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -253,18 +265,12 @@ export interface RootRouteChildren {
   SignUpRoute: typeof SignUpRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TerminiRoute: typeof TerminiRoute
-  UtilitaRoute: typeof UtilitaRoute
+  UtilitaSlugRoute: typeof UtilitaSlugRoute
+  UtilitaIndexRoute: typeof UtilitaIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/utilita': {
-      id: '/utilita'
-      path: '/utilita'
-      fullPath: '/utilita'
-      preLoaderRoute: typeof UtilitaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/termini': {
       id: '/termini'
       path: '/termini'
@@ -356,6 +362,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/utilita/': {
+      id: '/utilita/'
+      path: '/utilita'
+      fullPath: '/utilita/'
+      preLoaderRoute: typeof UtilitaIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/quale-conviene/': {
       id: '/quale-conviene/'
       path: '/'
@@ -369,6 +382,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRouteRoute
+    }
+    '/utilita/$slug': {
+      id: '/utilita/$slug'
+      path: '/utilita/$slug'
+      fullPath: '/utilita/$slug'
+      preLoaderRoute: typeof UtilitaSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/quale-conviene/confronta': {
       id: '/quale-conviene/confronta'
@@ -428,7 +448,8 @@ const rootRouteChildren: RootRouteChildren = {
   SignUpRoute: SignUpRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TerminiRoute: TerminiRoute,
-  UtilitaRoute: UtilitaRoute,
+  UtilitaSlugRoute: UtilitaSlugRoute,
+  UtilitaIndexRoute: UtilitaIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
