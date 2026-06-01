@@ -50,7 +50,7 @@ function CategoryPage() {
   const { prev, next } = getAdjacentCategories(category);
 
   return (
-    <div className="container mx-auto max-w-5xl px-4 py-10 space-y-10">
+    <div className="space-y-10">
       <nav
         aria-label="breadcrumb"
         className="flex items-center gap-1 text-sm text-muted-foreground"

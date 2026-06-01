@@ -32,7 +32,7 @@ function Home() {
   );
 
   return (
-    <div className="container mx-auto max-w-5xl px-4 py-8 sm:py-12 space-y-12">
+    <div className="space-y-12">
       <HeroBanner />
 
       <RecentComparisons />
